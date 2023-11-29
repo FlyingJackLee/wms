@@ -1,0 +1,17 @@
+mat-sidenav-container {
+    min-height: 100%;;
+}
+
+mat-sidenav-content{
+    background-color: #FAFAFA;
+}
+
+
+mat-drawer-container {
+    min-height: 100%;
+}
+
+mat-drawer
+{
+    width: 200px;
+}
