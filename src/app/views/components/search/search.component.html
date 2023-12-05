@@ -1,0 +1,7 @@
+<div class="search">
+    <mat-form-field class="search-field">
+        <mat-label>搜索：</mat-label>
+        <input matInput type="search" [(ngModel)]="searchText" placeholder="输入型号或者串号">
+    </mat-form-field>
+    <button mat-raised-button (click)="search()" color="primary">搜索</button>
+</div>

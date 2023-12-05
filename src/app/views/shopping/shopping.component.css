@@ -1,0 +1,39 @@
+.flex-nowrap {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 1080px;
+    font-family: Puhui;
+}
+
+.select-area {
+    width: 60%;
+    height: 100%;
+    padding: 10px;
+}
+
+.order-area {
+    width: 35%;
+}
+
+.card-button {
+    font-weight: bold;
+}
+
+.list_area {
+    display: flex;
+}
+
+.card {
+    width: auto;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.search {
+   width: 95%; 
+   margin-left: 20px;
+   margin-right: 20px;
+}
+
+
