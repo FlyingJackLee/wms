@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ToastService } from 'src/app/services/toast.service';
+
 
 @Component({
   selector: 'app-inventory',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./inventory.component.css']
 })
 export class InventoryComponent {
+  constructor(private toastService:ToastService) {}
 
+  test() {
+    this.toastService.push("this is just a test", "error");
+  }
 }

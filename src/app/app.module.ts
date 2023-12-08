@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, Injectable, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +11,7 @@ import { MatListModule} from '@angular/material/list';
 import { MatIconModule} from '@angular/material/icon';
 import { MatToolbarModule} from '@angular/material/toolbar';
 import { MatButtonModule} from '@angular/material/button';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { CategorySelectComponent } from './views/components/category-select/category-select.component';
 import { ShoppingComponent } from './views/shopping/shopping.component';
 import { InventoryComponent } from './views/inventory/inventory.component';
@@ -24,7 +24,25 @@ import { MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule} from '@angular/forms';
 import { MatDialogModule} from '@angular/material/dialog';
 import { SearchComponent } from './views/components/search/search.component';
+import { ToastComponent }  from 'src/app/views/components/toast/toast.component'
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInteceptor } from './inteceptors/api-inteceptor';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+const WMS_DATE_FORMAT = {
+  parse: {
+    dateInput: 'YYYY/MM/DD', // this is how your date will be parsed from Input
+  },
+  display: {
+    dateInput: 'YYYY/MM/DD', // this is how your date will get displayed on the Input
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+}
 
 @NgModule({
   declarations: [
@@ -33,7 +51,7 @@ import { SearchComponent } from './views/components/search/search.component';
     ShoppingComponent,
     InventoryComponent,
     StatisticsComponent,
-    SearchComponent
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,9 +69,16 @@ import { SearchComponent } from './views/components/search/search.component';
     FormsModule, 
     MatFormFieldModule, 
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    ToastComponent,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInteceptor, multi: true},
+    { provide: MAT_DATE_FORMATS, useValue: WMS_DATE_FORMAT },
+    { provide: MAT_DATE_LOCALE, useValue: 'zh-Hans' }
   ],
   bootstrap: [AppComponent]
 })

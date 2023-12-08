@@ -1,0 +1,7 @@
+<div *ngIf="level && message" [style.background-color]="bg_color_map[level]" [style.border-color]="main_color_map[level]" class="wms-toast">
+    <mat-icon [style.color]="main_color_map[level]">{{ icon_map[level] }}</mat-icon>
+    <span>{{ message }}</span>
+    <button mat-icon-button (click)="this.clean.emit()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>

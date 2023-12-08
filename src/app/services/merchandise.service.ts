@@ -3,6 +3,12 @@ import { Injectable } from '@angular/core';
 import { Merchandise } from '../models/merchandise';
 import { Observable } from 'rxjs';
 
+type MerchandisesQuery = 
+{
+  count:number;
+  merchandises:Merchandise[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +29,7 @@ export class MerchandiseService {
     return this.http.get<Merchandise[]>(this.url, {params: queryParames});
   }
 
+
   searchMerchandies(text: string, page:number, limit:number): Observable<Merchandise[]> {
     let queryParames = new HttpParams();
     queryParames =  queryParames.append("q", text);
@@ -30,4 +37,5 @@ export class MerchandiseService {
     queryParames =  queryParames.append("_limit", limit);
     return this.http.get<Merchandise[]>(this.url, {params: queryParames});
   }
+
 }

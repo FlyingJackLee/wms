@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable, tap } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { Merchandise } from 'src/app/models/merchandise';
-import { CategoryService } from 'src/app/services/category.service';
-import { MerchandiseService } from 'src/app/services/merchandise.service';
+import { OrderConfirmComponent } from '../components/order-confirm/order-confirm.component';
 
 @Component({
   selector: 'app-shopping',
@@ -11,27 +11,45 @@ import { MerchandiseService } from 'src/app/services/merchandise.service';
   styleUrls: ['./shopping.component.css']
 })
 export class ShoppingComponent {
-  pageSize = 10;
+  pageSize = 20;
   pageIndex = 0;
   pageLength = 0;
 
   merchandises!: Observable<Merchandise[]>;
-  test!:Observable<Category>;
 
-  constructor(private service:MerchandiseService, 
-    private cateService:CategoryService)
-  {}
+  cart: Map<Merchandise, number> = new Map();
 
-
+  constructor(public dialog:MatDialog){}
+  
   updateList(merchandises:Observable<Merchandise[]>) {
     this.merchandises = merchandises.pipe(
       tap(mes => {
-        // 更新步进长度
+        // TODO: 更新步进长度应该由后台传回专门的参数
         this.pageLength = mes.length;
       })
     );
     }
 
+  addToCart(item:Merchandise) {
+    if(!this.cart.has(item)) {
+      this.cart.set(item, item.or_price);
+    }
+  }
+
+  removeFromCart(item:Merchandise) {
+    this.cart.delete(item);
+  }
+
+  clearCart() {
+    this.cart = new Map();
+  }
+
+  orderConfrim() {
+    const dialogRef = this.dialog.open<OrderConfirmComponent>(OrderConfirmComponent, {
+      data: {cart: this.cart},
+      height: "600px",
+      width: "350px"
+    })
+  }
+
 }
-
-

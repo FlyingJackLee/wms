@@ -15,7 +15,8 @@ export class CategorySelectComponent implements OnInit{
     @Input() pageIndex:number = 0;
     @Input() pageSize:number = 50;
 
-    @Output() cateIdSelectEvent = new EventEmitter<Observable<Merchandise[]>>();
+    @Output() results = new EventEmitter<Observable<Merchandise[]>>();
+    @Output() total = new EventEmitter<number>();
 
     rootCategories!: Observable<Category[]>;
     modelCategories!: Observable<Category[]>;
@@ -49,9 +50,11 @@ export class CategorySelectComponent implements OnInit{
 
     selectAndSendToParent(category:Category){
       this.selectedCategory = category;
-      this.cateIdSelectEvent.emit(
+
+      this.results.emit(
         this.merchanService.getMerchandisesByCateId(this.selectedCategory.cate_id, 1, this.pageSize)
-        );    
+        );
+          
     }
     
 }

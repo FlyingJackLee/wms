@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
+import { ToastService } from './services/toast.service';
 
 
 @Component({
@@ -18,5 +12,11 @@ export class AppComponent {
   title = 'wms';
 
   isExpanded = true;
+
+  constructor(public toastService:ToastService){}
+
+  clear() {
+    this.toastService.clear();
+  }
 }
 
