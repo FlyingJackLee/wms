@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, tap } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { Merchandise } from 'src/app/models/merchandise';
-import { OrderConfirmComponent } from '../components/order-confirm/order-confirm.component';
+import { OrderConfirmComponent } from '../../components/order-confirm/order-confirm.component';
 
 @Component({
   selector: 'app-shopping',
   templateUrl: './shopping.component.html',
-  styleUrls: ['./shopping.component.css']
+  styleUrls: ['./shopping.component.scss']
 })
 export class ShoppingComponent {
   pageSize = 20;

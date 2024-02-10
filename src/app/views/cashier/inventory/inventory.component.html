@@ -1,0 +1,44 @@
+<app-category-select></app-category-select>
+<button mat-raised-button color="primary">新增商品</button>
+<button mat-raised-button color="primary">新增分类</button>
+
+<section>
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="me_id">
+            <th mat-header-cell *matHeaderCellDef> 序号 </th>
+            <td mat-cell *matCellDef="let item"> {{item.me_id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cate_name">
+            <th mat-header-cell *matHeaderCellDef> 型号 </th>
+            <td mat-cell *matCellDef="let item"> {{item.category.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cost">
+            <th mat-header-cell *matHeaderCellDef> 成本价格 </th>
+            <td mat-cell *matCellDef="let item"> {{item.cost}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="or_price">
+            <th mat-header-cell *matHeaderCellDef> 售价 </th>
+            <td mat-cell *matCellDef="let item"> {{item.or_price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="create_date">
+            <th mat-header-cell *matHeaderCellDef> 录入时间 </th>
+            <td mat-cell *matCellDef="let item"> {{item.create_date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> 修改 </th>
+            <td mat-cell *matCellDef="let item"> 
+                <button mat-icon-button><mat-icon color="accent">edit</mat-icon></button> 
+            </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator (page)="changePage($event)" [pageIndex]="0" [length]="count" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+</section>

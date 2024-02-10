@@ -1,18 +1,16 @@
-import { Component } from '@angular/core';
-import { ToastService } from './services/toast.service';
+import { Component, OnInit } from '@angular/core';
+import {ToastService} from "./services/toast.service";
+import {Title} from "@angular/platform-browser";
 
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   animations:[]
 })
-export class AppComponent {
-  title = 'wms';
-
-  isExpanded = true;
-
+export class AppComponent{
+  title = '首页';
   constructor(public toastService:ToastService){}
 
   clear() {

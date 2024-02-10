@@ -22,7 +22,7 @@ import { MatNativeDateModule} from '@angular/material/core';
 
     ],
   templateUrl: './order-confirm.component.html',
-  styleUrl: './order-confirm.component.css'
+  styleUrl: './order-confirm.component.scss'
 })
 export class OrderConfirmComponent implements OnInit{
   totalOringinalPrice: number = 0;

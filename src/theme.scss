@@ -1,0 +1,50 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$wms-palette:  (
+  50: #e3f1ff,
+  100: #bddcff,
+  200: #93c6ff,
+  300: #67afff,
+  400: #4b9dff,
+  500: #3c8cff,
+  600: #417dff,
+  700: #426aea,
+  800: #4257d7,
+  900: #4134b6,
+  A100: #82B1FF,
+  A200: #448AFF,
+  A400: #2979FF,
+  A700: #2962FF,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+$wms-primary: mat.define-palette($wms-palette, 600);
+$wms-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$wms-warn: mat.define-palette(mat.$red-palette);
+
+$wms-theme: mat.define-light-theme((
+  color: (
+    primary: $wms-primary,
+    accent: $wms-accent,
+    warn: $wms-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($wms-theme);

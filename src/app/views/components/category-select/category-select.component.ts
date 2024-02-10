@@ -9,7 +9,7 @@ import { MerchandiseService } from 'src/app/services/merchandise.service';
 @Component({
   selector: 'app-category-select',
   templateUrl: './category-select.component.html',
-  styleUrls: ['./category-select.component.css']
+  styleUrls: ['./category-select.component.scss']
 })
 export class CategorySelectComponent implements OnInit{
     @Input() pageIndex:number = 0;
@@ -54,7 +54,5 @@ export class CategorySelectComponent implements OnInit{
       this.results.emit(
         this.merchanService.getMerchandisesByCateId(this.selectedCategory.cate_id, 1, this.pageSize)
         );
-          
     }
-    
 }

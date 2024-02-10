@@ -10,7 +10,7 @@ export type Level = "" | "success" | "information" | "warning" | "error";
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './toast.component.html',
-  styleUrl: './toast.component.css'
+  styleUrl: './toast.component.scss'
 })
 export class ToastComponent {
   @Input() level!: Level;

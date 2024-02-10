@@ -8,7 +8,7 @@ import { MerchandiseService } from "src/app/services/merchandise.service";
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.scss']
 })
 export class SearchComponent {
   @Input() pageIndex:number = 0;

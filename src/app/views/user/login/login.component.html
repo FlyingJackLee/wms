@@ -1,0 +1,42 @@
+<div class="login-container">
+    <div class="form-container">
+      <h3>用户登录</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="submit()">
+          <mat-form-field >
+              <mat-label>
+                @if(activatePrincipal == 'username'){用户名} @else {邮箱地址}
+              </mat-label>
+              <input matInput [formControl]="loginForm.controls[activatePrincipal]!">
+              @if (principals[activatePrincipal].invalid && (loginForm.touched || loginForm.dirty)) {
+                <mat-error>{{ activatePrincipal == 'username' ? "5-15位小写字母数字组成" : "邮箱地址不正确" }}</mat-error>
+              }
+          </mat-form-field>
+
+          <mat-form-field>
+              <mat-label>密码</mat-label>
+              <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                  <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              @if (loginForm.controls['password'].invalid && (loginForm.touched || loginForm.dirty) ) {
+                  <mat-error>8-16位非空字符</mat-error>
+              }
+          </mat-form-field>
+        <span id="forget"><a [routerLink]="['/user/forget']" class="forget">忘记密码？</a></span>
+        <span><button mat-raised-button id="submit-button" [disabled]="loginForm.invalid || !showSubmitButton" type="submit" color="primary">登陆</button></span>
+      </form>
+      <mat-divider></mat-divider>
+      @if(!showSubmitButton) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+      <button mat-button color="primary" (click)="switchPrincipalField()">切换为{{ activatePrincipal == 'username' ? "邮箱地址" : "用户名" }}登陆</button>
+
+    </div>
+
+    <div class="tip-container">
+      <h3>没有账号？</h3>
+      <p>即刻进行注册</p>
+      <span><a id="signup-switch" [routerLink]="['/user/signup']" mat-stroked-button>注册</a></span>
+    </div>
+
+</div>

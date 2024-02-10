@@ -13,9 +13,9 @@ import { MatToolbarModule} from '@angular/material/toolbar';
 import { MatButtonModule} from '@angular/material/button';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { CategorySelectComponent } from './views/components/category-select/category-select.component';
-import { ShoppingComponent } from './views/shopping/shopping.component';
-import { InventoryComponent } from './views/inventory/inventory.component';
-import { StatisticsComponent } from './views/statistics/statistics.component';
+import { ShoppingComponent } from './views/cashier/shopping/shopping.component';
+import { InventoryComponent } from './views/cashier/inventory/inventory.component';
+import { StatisticsComponent } from './views/cashier/statistics/statistics.component';
 import { MatPaginatorModule} from '@angular/material/paginator';
 import { MatCardModule} from '@angular/material/card';
 
@@ -26,11 +26,14 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { SearchComponent } from './views/components/search/search.component';
 import { ToastComponent }  from 'src/app/views/components/toast/toast.component'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiInteceptor } from './inteceptors/api-inteceptor';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatTableModule} from '@angular/material/table';
 
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthService, getJWTToken } from './services/auth.service';
+import { APIInterceptor } from './interceptors/api-interceptor';
+import {ToastService} from "./services/toast.service";
 
 const WMS_DATE_FORMAT = {
   parse: {
@@ -58,6 +61,15 @@ const WMS_DATE_FORMAT = {
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: getJWTToken,
+        // TODO 正式环境需要添加domian
+        allowedDomains: ["127.0.0.1:8080, localohost:8080"],
+        disallowedRoutes: ["//user/**"],
+        skipWhenExpired: true
+      }
+    }),
     MatSidenavModule,
     MatListModule,
     MatIconModule,
@@ -66,20 +78,20 @@ const WMS_DATE_FORMAT = {
     MatButtonToggleModule,
     MatPaginatorModule,
     MatCardModule,
-    FormsModule, 
-    MatFormFieldModule, 
+    FormsModule,
+    MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
     ToastComponent,
     MatDatepickerModule,
     MatNativeDateModule,
-    
+    MatTableModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiInteceptor, multi: true},
     { provide: MAT_DATE_FORMATS, useValue: WMS_DATE_FORMAT },
-    { provide: MAT_DATE_LOCALE, useValue: 'zh-Hans' }
+    { provide: MAT_DATE_LOCALE, useValue: 'zh-Hans' },
+    { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true, deps: [ToastService]}
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

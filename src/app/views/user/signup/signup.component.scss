@@ -1,0 +1,60 @@
+.login-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.form-container, .tip-container {
+  width: 50%;
+  height: 35rem;
+  text-align: center;
+  padding-top: 3rem;
+}
+
+.tip-container {
+  background-color: #417dff;
+}
+
+form > mat-form-field, form > span {
+  width: 20rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  display: inline-block;
+  text-align: center;
+}
+
+#forget {
+  text-align: start;
+  font-size: 0.9rem;
+}
+
+#submit-button {
+  width: 8rem;
+  height: 2.5rem;
+}
+
+mat-divider {
+  margin-top: 2rem;
+  margin-right: 2rem;
+  margin-left: 2rem;
+}
+
+.tip-container {
+  color: white;
+  display: grid;
+
+  grid-auto-columns: 100%;
+  grid-template-rows: 10% 10% 10%;
+  justify-items: center;
+  align-items: center;
+  padding-top: 8rem;
+}
+
+.tip-container > p {
+  font-weight: lighter;
+}
+
+#login-switch {
+  color: white;
+  border-color: white;
+}
