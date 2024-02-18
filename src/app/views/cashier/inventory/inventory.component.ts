@@ -1,39 +1,45 @@
-import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator, MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, ReplaySubject, map} from 'rxjs';
 import { Merchandise } from 'src/app/models/merchandise';
-import { MerchandiseService, MerchandisesQuery } from 'src/app/services/merchandise.service';
+import { MerchandiseService } from 'src/app/services/merchandise.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTableModule} from '@angular/material/table';
+import {map, switchMap, take} from "rxjs";
 
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements OnInit{
-  PAGE_SIZE = 10;
-
+export class InventoryComponent implements AfterViewInit{
   count:number = 0;
-  dataSource = new MatTableDataSource<Merchandise>();
+  pageIndex:number = 0;
+  pageSize:number = 10;
 
-  displayedColumns: string[] = ['me_id', 'cate_name', 
-        'cost', 'or_price', 'create_date', 'edit'];
+  displayedColumns: string[] = ['id', 'cate_name', 'imei','cost', 'price', 'create_date', 'edit'];
+  dataSource: Merchandise[] = [];
+
+  hideCost: boolean = true;
+
   constructor(private merchandiseService:MerchandiseService) {}
 
-  ngOnInit(): void {
-    this._refreshData(0, this.PAGE_SIZE)
+  ngAfterViewInit() {
+    this._refreshData();
   }
 
-  changePage($event:PageEvent) {
-    this._refreshData($event.pageIndex, $event.pageSize)
+  pageChangePage($event:PageEvent) {
+    this.pageIndex = $event.pageIndex;
+    this.pageSize = $event.pageSize
+    this._refreshData();
   }
 
-  private _refreshData(pageIndex:number, pageSize:number) {
-    this.merchandiseService.getAllMerchandies(pageIndex, pageSize).subscribe(item => {
-      this.count = item.count;
-      this.dataSource.data = item.merchandises;
-    });
+  private _refreshData() {
+    this.merchandiseService.getMerchandiseByPage(this.pageIndex, this.pageSize).subscribe(
+        data => {
+            this.count = data.count;
+            this.dataSource = data.merchandise;
+        }
+    );
   }
-
 }

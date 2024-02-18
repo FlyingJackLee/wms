@@ -1,38 +1,38 @@
 <div class="main-container">
   <mat-toolbar color="primary">
-  <!-- 侧边栏通过这里切换 -->
-  <button (click)="sidenav.toggle()" mat-icon-button>
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>销售宝</span>
+    <!-- 侧边栏通过这里切换 -->
+    <button (click)="sidenav.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>销售宝</span>
   </mat-toolbar>
 
   <mat-drawer-container hasBackdrop="false">
-  <mat-drawer #sidenav mode="side" opened>
-    <mat-nav-list>
-      <mat-list-item routerLink="/shopping">
-        <mat-icon class="nav-icon" matListItemIcon>shopping_cart</mat-icon>
-        <div matListItemTitle>收银</div>
-        <div matListItemLine>消费收款</div>
-      </mat-list-item>
+    <mat-drawer #sidenav mode="side" opened>
+      <mat-nav-list>
+        <mat-list-item routerLink="/cashier/shopping">
+          <mat-icon class="nav-icon" matListItemIcon>shopping_cart</mat-icon>
+          <div matListItemTitle>收银</div>
+          <div matListItemLine>消费收款</div>
+        </mat-list-item>
 
-      <mat-list-item routerLink="/inventory">
-        <mat-icon matListItemIcon>warehouse</mat-icon>
-        <div matListItemTitle>库存</div>
-        <div matListItemLine>进入库</div>
-      </mat-list-item>
+        <mat-list-item routerLink="/cashier/inventory">
+          <mat-icon matListItemIcon>warehouse</mat-icon>
+          <div matListItemTitle>库存</div>
+          <div matListItemLine>进入库</div>
+        </mat-list-item>
 
-      <mat-list-item routerLink="/statistics">
-        <mat-icon matListItemIcon>monitoring</mat-icon>
-        <div matListItemTitle>数据</div>
-        <div matListItemLine>历史账单</div>
-      </mat-list-item>
+        <mat-list-item routerLink="/cashier/statistics">
+          <mat-icon matListItemIcon>monitoring</mat-icon>
+          <div matListItemTitle>数据</div>
+          <div matListItemLine>历史账单</div>
+        </mat-list-item>
 
-    </mat-nav-list>
-  </mat-drawer>
+      </mat-nav-list>
+    </mat-drawer>
 
-  <mat-drawer-content>
-    <router-outlet></router-outlet>
-  </mat-drawer-content>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
   </mat-drawer-container>
 </div>

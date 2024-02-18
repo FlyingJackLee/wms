@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import {MatButtonModule} from "@angular/material/button";
 
-
 @Component({
   selector: 'app-cashier',
   standalone: true,

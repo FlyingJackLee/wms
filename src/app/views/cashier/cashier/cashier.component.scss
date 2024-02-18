@@ -1,16 +1,23 @@
 mat-sidenav-container {
-    min-height: 100%;;
+  min-height: 100%;;
+}
+
+mat-toolbar {
+  height: 5vh;
 }
 
 mat-drawer-container {
-    min-height: 100%;
+  min-height: 95vh;
+  width: 100%;
 }
 
 mat-drawer{
-    width: 200px;
+  width: 200px;
+  height: 100%;
 }
 
 .main-container {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: scroll;
 }

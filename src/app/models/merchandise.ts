@@ -1,12 +1,11 @@
 import { Category } from "./category";
 
 export interface Merchandise {
-    me_id: number;
+    id: number;
     category: Category,
     cost: number,
-    or_price: number,
+    price: number,
     imei: string,
-    number: number,
-    status: number,
-    userid: number
+    sold: number,
+    createTime: Date
 }

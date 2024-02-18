@@ -15,7 +15,7 @@ import { MatNativeDateModule} from '@angular/material/core';
 @Component({
   selector: 'app-order-confirm',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, 
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule,
     MatInputModule, MatIconModule, MatDividerModule, MatButtonModule,
     MatDatepickerModule, MatNativeDateModule],
   providers:[
@@ -26,7 +26,7 @@ import { MatNativeDateModule} from '@angular/material/core';
 })
 export class OrderConfirmComponent implements OnInit{
   totalOringinalPrice: number = 0;
-  totalSellingPrice: number = 0; 
+  totalSellingPrice: number = 0;
 
   today = new Date();
 
@@ -37,10 +37,10 @@ export class OrderConfirmComponent implements OnInit{
     });
 
   constructor(@Inject(DIALOG_DATA) public data: { cart: Map<Merchandise, number>}, private formBuilder: FormBuilder) {}
-  
+
   ngOnInit(): void {
     this.data.cart.forEach((value: number, key: Merchandise) => {
-      this.totalOringinalPrice += Number(key.or_price);
+      this.totalOringinalPrice += Number(key.price);
       this.totalSellingPrice += Number(value);
     });
   }

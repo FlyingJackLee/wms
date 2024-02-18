@@ -1,5 +1,5 @@
 export interface Category {
-    cate_id: number;
-    parent_cate_id: number;
+    id: number;
+    parentId: number;
     name: string;
 }

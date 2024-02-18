@@ -2,7 +2,7 @@
     <div class="select-area">
         <app-search [pageSize]="pageSize" [pageIndex]="pageIndex" (results)="updateList($event)" class="search"></app-search>
         <app-category-select [pageSize]="pageSize" [pageIndex]="pageIndex" (results)="updateList($event)"></app-category-select>
-        
+
         <div class="list_area">
             <mat-card class="merchandise-detail" *ngFor="let item of merchandises | async">
                 <mat-card-header>
@@ -13,7 +13,7 @@
                     <mat-card-subtitle>IMEI:{{ item.imei }}</mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
-                    <p>价格:{{ item.or_price }}</p>
+                    <p>价格:{{ item.price }}</p>
                     <mat-divider></mat-divider>
                 </mat-card-content>
                 <mat-card-actions>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <mat-divider></mat-divider>
 
             <div class="receipt-footer">
@@ -61,5 +61,4 @@
         </div>
     </div>
 </div>
-    
- 
+

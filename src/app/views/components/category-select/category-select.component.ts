@@ -35,15 +35,15 @@ export class CategorySelectComponent implements OnInit{
       // 清空二级
       this.secondCategories = new Subject();
 
-      this.selectedCategory = category;    
-      this.modelCategories = this.categoryService.getCategoriesByParentId(category.cate_id);
+      this.selectedCategory = category;
+      this.modelCategories = this.categoryService.getCategoriesByParentId(category.id);
 
       this.selectAndSendToParent(category);
-    }  
+    }
 
     modelSelect(category:Category) {
-      this.selectedCategory = category;    
-      this.secondCategories = this.categoryService.getCategoriesByParentId(category.cate_id);
+      this.selectedCategory = category;
+      this.secondCategories = this.categoryService.getCategoriesByParentId(category.id);
 
       this.selectAndSendToParent(category);
     }
@@ -52,7 +52,7 @@ export class CategorySelectComponent implements OnInit{
       this.selectedCategory = category;
 
       this.results.emit(
-        this.merchanService.getMerchandisesByCateId(this.selectedCategory.cate_id, 1, this.pageSize)
+        this.merchanService.getMerchandisesByCateId(this.selectedCategory.id, 1, this.pageSize)
         );
     }
 }

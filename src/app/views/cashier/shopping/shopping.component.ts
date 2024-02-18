@@ -20,7 +20,7 @@ export class ShoppingComponent {
   cart: Map<Merchandise, number> = new Map();
 
   constructor(public dialog:MatDialog){}
-  
+
   updateList(merchandises:Observable<Merchandise[]>) {
     this.merchandises = merchandises.pipe(
       tap(mes => {
@@ -32,7 +32,7 @@ export class ShoppingComponent {
 
   addToCart(item:Merchandise) {
     if(!this.cart.has(item)) {
-      this.cart.set(item, item.or_price);
+      this.cart.set(item, item.price);
     }
   }
 

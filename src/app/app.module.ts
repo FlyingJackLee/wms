@@ -34,6 +34,8 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService, getJWTToken } from './services/auth.service';
 import { APIInterceptor } from './interceptors/api-interceptor';
 import {ToastService} from "./services/toast.service";
+import {CashierComponent} from "./views/cashier/cashier/cashier.component";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const WMS_DATE_FORMAT = {
   parse: {
@@ -85,7 +87,11 @@ const WMS_DATE_FORMAT = {
     ToastComponent,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    CashierComponent
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: WMS_DATE_FORMAT },

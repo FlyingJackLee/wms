@@ -25,7 +25,7 @@ export class SearchComponent {
       });
     }
     else {
-      this.results.emit(this.service.searchMerchandies(this.searchText, this.pageIndex, this.pageSize));
+      // this.results.emit(this.service.searchMerchandies(this.searchText, this.pageIndex, this.pageSize));
     }
   }
 
