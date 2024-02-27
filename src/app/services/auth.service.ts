@@ -26,6 +26,10 @@ export class AuthService {
   setToken(token:string) {
     localStorage.setItem(AuthService.TOKEN_KEY_NAME, token);
   }
+
+  clear() {
+    localStorage.removeItem(AuthService.TOKEN_KEY_NAME);
+  }
 }
 
 export function getJWTToken() :string | null{

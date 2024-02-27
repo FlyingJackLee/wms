@@ -36,6 +36,7 @@ import { APIInterceptor } from './interceptors/api-interceptor';
 import {ToastService} from "./services/toast.service";
 import {CashierComponent} from "./views/cashier/cashier/cashier.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {Router} from "@angular/router";
 
 const WMS_DATE_FORMAT = {
   parse: {
@@ -96,7 +97,7 @@ const WMS_DATE_FORMAT = {
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: WMS_DATE_FORMAT },
     { provide: MAT_DATE_LOCALE, useValue: 'zh-Hans' },
-    { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true, deps: [ToastService]}
+    { provide: HTTP_INTERCEPTORS, useClass: APIInterceptor, multi: true, deps: [ToastService, AuthService, Router]}
   ],
   bootstrap: [AppComponent]
 })

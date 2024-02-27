@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Category } from 'src/app/models/category';
-import { Merchandise } from 'src/app/models/merchandise';
 
 import { CategoryService } from 'src/app/services/category.service'
 import { MerchandiseService } from 'src/app/services/merchandise.service';
@@ -12,47 +11,37 @@ import { MerchandiseService } from 'src/app/services/merchandise.service';
   styleUrls: ['./category-select.component.scss']
 })
 export class CategorySelectComponent implements OnInit{
-    @Input() pageIndex:number = 0;
-    @Input() pageSize:number = 50;
+  @Output() select = new EventEmitter<Category>();
 
-    @Output() results = new EventEmitter<Observable<Merchandise[]>>();
-    @Output() total = new EventEmitter<number>();
+  rootCategories!: Observable<Category[]>;
+  modelCategories!: Observable<Category[]>;
+  secondCategories!: Observable<Category[]>;
 
-    rootCategories!: Observable<Category[]>;
-    modelCategories!: Observable<Category[]>;
-    secondCategories!: Observable<Category[]>;
+  selectedCategory!:Category;
 
-    selectedCategory!:Category;
+  constructor(private categoryService:CategoryService ){}
 
-    constructor(private merchanService:MerchandiseService,
-      private categoryService:CategoryService ){}
+  ngOnInit(): void {
+    this.rootCategories = this.categoryService.getAllRootCategories()
+  }
 
-    ngOnInit(): void {
-      this.rootCategories = this.categoryService.getAllRootCategories()
-    }
+  rootSelect(category:Category) {
+    // 清空二级
+    this.secondCategories = new Subject();
 
-    rootSelect(category:Category) {
-      // 清空二级
-      this.secondCategories = new Subject();
+    this.modelCategories = this.categoryService.getCategoriesByParentId(category.id);
 
-      this.selectedCategory = category;
-      this.modelCategories = this.categoryService.getCategoriesByParentId(category.id);
+    this.selectCategory(category)
+  }
 
-      this.selectAndSendToParent(category);
-    }
+  modelSelect(category:Category) {
+    this.secondCategories = this.categoryService.getCategoriesByParentId(category.id);
 
-    modelSelect(category:Category) {
-      this.selectedCategory = category;
-      this.secondCategories = this.categoryService.getCategoriesByParentId(category.id);
+    this.selectCategory(category)
+  }
 
-      this.selectAndSendToParent(category);
-    }
-
-    selectAndSendToParent(category:Category){
-      this.selectedCategory = category;
-
-      this.results.emit(
-        this.merchanService.getMerchandisesByCateId(this.selectedCategory.id, 1, this.pageSize)
-        );
-    }
+  selectCategory(category: Category) {
+    this.selectedCategory = category;
+    this.select.emit(this.selectedCategory);
+  }
 }

@@ -1,6 +1,6 @@
-<app-category-select></app-category-select>
 
 <section>
+  <app-category-select (select)="select($event)"></app-category-select>
   <div class="statistics">
     <h3>当前数量</h3>
     <h1>{{ count }} <span>台</span></h1>
@@ -25,7 +25,6 @@
       <th mat-header-cell *matHeaderCellDef> 串号 </th>
       <td mat-cell *matCellDef="let item"> {{item.imei}} </td>
     </ng-container>
-
       <ng-container matColumnDef="cost">
           <th mat-header-cell *matHeaderCellDef>
             <button mat-icon-button matSuffix (click)="hideCost = !hideCost" [attr.aria-label]="'Hide cost'" [attr.aria-pressed]="hideCost">
@@ -65,5 +64,5 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-    <mat-paginator (page)="pageChangePage($event)"  [length]="count" [pageSize]="10" showFirstLastButtons></mat-paginator>
+    <mat-paginator [length]="count" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </section>

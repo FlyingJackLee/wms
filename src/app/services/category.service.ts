@@ -16,14 +16,10 @@ export class CategoryService {
   }
 
   getCategoriesByParentId(parent_id: number): Observable<Category[]>{
-    let queryParames = new HttpParams();
-    queryParames =  queryParames.append("parent_cate_id", parent_id);
-    return this.http.get<Category[]>("category/parent/", {params: queryParames});
+    return this.http.get<Category[]>("category/parent/" + parent_id);
   }
 
   getCategoryDetailById(cate_id: number): Observable<Category> {
-    let queryParames = new HttpParams();
-    queryParames =  queryParames.append("cate_id", cate_id);
-    return this.http.get<Category>(this.url, {params: queryParames});
+    return this.http.get<Category>("category/" + cate_id);
   }
 }

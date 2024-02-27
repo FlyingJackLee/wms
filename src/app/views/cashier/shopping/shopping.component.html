@@ -1,7 +1,7 @@
 <div class="flex-nowrap">
     <div class="select-area">
         <app-search [pageSize]="pageSize" [pageIndex]="pageIndex" (results)="updateList($event)" class="search"></app-search>
-        <app-category-select [pageSize]="pageSize" [pageIndex]="pageIndex" (results)="updateList($event)"></app-category-select>
+        <!-- <app-category-select [pageSize]="pageSize" [pageIndex]="pageIndex" (select)="updateList($event)"></app-category-select> -->
 
         <div class="list_area">
             <mat-card class="merchandise-detail" *ngFor="let item of merchandises | async">

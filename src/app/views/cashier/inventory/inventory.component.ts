@@ -6,6 +6,7 @@ import { MerchandiseService } from 'src/app/services/merchandise.service';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTableModule} from '@angular/material/table';
 import {map, switchMap, take} from "rxjs";
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-inventory',
@@ -28,14 +29,24 @@ export class InventoryComponent implements AfterViewInit{
     this._refreshData();
   }
 
-  pageChangePage($event:PageEvent) {
-    this.pageIndex = $event.pageIndex;
-    this.pageSize = $event.pageSize
-    this._refreshData();
+  // pageChangePage($event:PageEvent) {
+  //   this.pageIndex = $event.pageIndex;
+  //   this.pageSize = $event.pageSize
+  //   this._refreshData();
+  // }
+
+  select(category: Category) {
+    console.log(category)
+    this.merchandiseService.getMerchandisesByCateId(category.id).subscribe(
+      data => {
+          this.dataSource = data;
+          this.count = data.length;
+      }
+  );
   }
 
   private _refreshData() {
-    this.merchandiseService.getMerchandiseByPage(this.pageIndex, this.pageSize).subscribe(
+    this.merchandiseService.getMerchandiseByPage(0, 999).subscribe(
         data => {
             this.count = data.count;
             this.dataSource = data.merchandise;
