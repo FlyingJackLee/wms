@@ -1,7 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Merchandise } from '../models/merchandise';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Merchandise} from '../models/merchandise';
+import {Observable} from 'rxjs';
+import {ApiRes} from "../models/ApiRes";
 
 export type MerchandisePage =
 {
@@ -18,8 +19,6 @@ export type MerchandiseCacheKey = {
   providedIn: 'root'
 })
 export class MerchandiseService {
-  url = "http://localhost:3000/merchandises"
-
   constructor(private http:HttpClient) { }
 
   getMerchandiseByPage(page:number, limit:number): Observable<MerchandisePage> {
@@ -29,18 +28,32 @@ export class MerchandiseService {
     return this.http.get<MerchandisePage>("merchandise/", { params: queryParams });
   }
 
-  getMerchandisesByCateId(cate_id:number):Observable<Merchandise[]> {
+  getMerchandisesByCateId(cateId:number):Observable<Merchandise[]> {
     let queryParams = new HttpParams();
-    queryParams = queryParams.append("cate_id", cate_id);
+    queryParams = queryParams.append("cate_id", cateId);
 
     return this.http.get<Merchandise[]>("merchandise/cate", {params: queryParams});
   }
 
-  searchMerchandies(text: string, page:number, limit:number): Observable<MerchandisePage> {
-    let queryParames = new HttpParams();
-    queryParames =  queryParames.append("q", text);
-    queryParames =  queryParames.append("_page", page);
-    queryParames =  queryParames.append("_limit", limit);
-    return this.http.get<MerchandisePage>(this.url, {params: queryParames});
+  updateMerchandise(cateId:number, cost: number, price: number, imei:string){
+    let queryParams = new HttpParams().set("cost", cost).set("price", price).set("imei", imei);
+    return this.http.put<ApiRes>("merchandise/" + cateId , null,{params: queryParams});
+  }
+
+  insertMerchandiseSet(cateId:number, cost: number, price: number, createTime: Date, imeiSet: Set<string>){
+    let queryParams = new HttpParams().set("cate_id", cateId)
+      .set("cost", cost).set("price", price).set("create_time", createTime.getTime())
+    imeiSet.forEach(imei => queryParams = queryParams.append("imei_list", imei));
+
+    return this.http.post<Merchandise[]>("merchandise/", null,{params: queryParams});
+  }
+
+  deleteMerchandise(me_id:number){
+    return this.http.delete<ApiRes>("merchandise/" + me_id);
+  }
+
+  searchMerchandise(text: string): Observable<Merchandise[]> {
+    let queryParams = new HttpParams().set("text", text);
+    return this.http.get<Merchandise[]>("merchandise/search", {params: queryParams});
   }
 }

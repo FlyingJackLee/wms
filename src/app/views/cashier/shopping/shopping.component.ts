@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { Merchandise } from 'src/app/models/merchandise';
 import { OrderConfirmComponent } from '../../components/order-confirm/order-confirm.component';
+import {Event} from "@angular/router";
 
 @Component({
   selector: 'app-shopping',
@@ -11,45 +12,44 @@ import { OrderConfirmComponent } from '../../components/order-confirm/order-conf
   styleUrls: ['./shopping.component.scss']
 })
 export class ShoppingComponent {
-  pageSize = 20;
-  pageIndex = 0;
-  pageLength = 0;
-
-  merchandises!: Observable<Merchandise[]>;
-
-  cart: Map<Merchandise, number> = new Map();
+  selectedMerchandise: Merchandise | undefined;
+  cart: Merchandise[] = [];
 
   constructor(public dialog:MatDialog){}
 
-  updateList(merchandises:Observable<Merchandise[]>) {
-    this.merchandises = merchandises.pipe(
-      tap(mes => {
-        // TODO: 更新步进长度应该由后台传回专门的参数
-        this.pageLength = mes.length;
-      })
-    );
-    }
+  updateList(merchandises:Merchandise) {
+    this.selectedMerchandise = merchandises;
+  }
 
   addToCart(item:Merchandise) {
-    if(!this.cart.has(item)) {
-      this.cart.set(item, item.price);
+    if(this.cart.indexOf(item) < 0) {
+      this.cart.push(item);
+      this.selectedMerchandise = undefined;
     }
   }
 
   removeFromCart(item:Merchandise) {
-    this.cart.delete(item);
+    this.cart = this.cart.filter(me => me != item);
   }
 
   clearCart() {
-    this.cart = new Map();
+    this.cart = [];
   }
 
-  orderConfrim() {
+  changePrice(event: any, item: Merchandise) {
+    item.price = Number((event.target as HTMLInputElement).value);
+  }
+
+  orderConfirm() {
     const dialogRef = this.dialog.open<OrderConfirmComponent>(OrderConfirmComponent, {
       data: {cart: this.cart},
-      height: "600px",
+      height: "500px",
       width: "350px"
-    })
+    }).afterClosed().subscribe(
+      result => {
+        if (result.isSuccess) {
+          location.reload(); //提交成功 刷新页面
+        }
+      });
   }
-
 }

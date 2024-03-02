@@ -1,35 +1,37 @@
-.order-comfirm-form {
-    display: flex;
-    flex-wrap: wrap;
-
-    justify-content: flex-start;
-    align-items: center;
+.order-confirm-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-.order-comfirm-form *{
-    width: 70%;
-    margin-top: 20px;
-    margin-left: 30px;
+.order-confirm-form *{
+  width: 70%;
+  margin-top: 20px;
+  margin-left: 30px;
 }
 
 .order-confirm-header {
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .confirm-price-container{
-    width: 80%;
-    height: 50px;
-    margin-top: 10px;
-    margin-left: 30px;
+  width: 80%;
+  height: 50px;
+  margin-top: 10px;
+  margin-left: 30px;
 
-    font-family: puhui;
-    font-weight: 300;
-    font-size: 22px;
+  font-family: puhui, serif;
+  font-weight: 300;
+  font-size: 22px;
 }
 
 .confirm-price {
-    color: rgb(192, 56, 7);
+  color: rgb(192, 56, 7);
 }
 
+mat-progress-bar {
+  margin-top: 1rem;
+}

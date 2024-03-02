@@ -21,7 +21,7 @@ import { MatCardModule} from '@angular/material/card';
 
 import { MatInputModule} from '@angular/material/input';
 import { MatFormFieldModule} from '@angular/material/form-field';
-import { FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatDialogModule} from '@angular/material/dialog';
 import { SearchComponent } from './views/components/search/search.component';
 import { ToastComponent }  from 'src/app/views/components/toast/toast.component'
@@ -37,6 +37,12 @@ import {ToastService} from "./services/toast.service";
 import {CashierComponent} from "./views/cashier/cashier/cashier.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {Router} from "@angular/router";
+import {MatTabsModule} from "@angular/material/tabs";
+import {CategoryManageComponent} from "./views/components/category-manage/category-manage.component";
+import {CreateMerchandiseComponent} from "./views/components/create-merchandise/create-merchandise.component";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const WMS_DATE_FORMAT = {
   parse: {
@@ -92,7 +98,14 @@ const WMS_DATE_FORMAT = {
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    CashierComponent
+    CashierComponent,
+    MatTabsModule,
+    CategoryManageComponent,
+    CreateMerchandiseComponent,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: WMS_DATE_FORMAT },

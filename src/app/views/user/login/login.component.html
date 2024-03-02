@@ -15,14 +15,14 @@
           <mat-form-field>
               <mat-label>密码</mat-label>
               <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+              <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                   <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
               @if (loginForm.controls['password'].invalid && (loginForm.touched || loginForm.dirty) ) {
                   <mat-error>8-16位非空字符</mat-error>
               }
           </mat-form-field>
-        <span id="forget"><a [routerLink]="['/user/forget']" class="forget">忘记密码？</a></span>
+        <span id="forget"><a tabindex="-1" [routerLink]="['/user/forget']" class="forget">忘记密码？</a></span>
         <span><button mat-raised-button id="submit-button" [disabled]="loginForm.invalid || !showSubmitButton" type="submit" color="primary">登陆</button></span>
       </form>
       <mat-divider></mat-divider>

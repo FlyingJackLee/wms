@@ -6,6 +6,6 @@ export interface Merchandise {
     cost: number,
     price: number,
     imei: string,
-    sold: number,
+    sold: boolean,
     createTime: Date
 }

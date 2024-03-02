@@ -3,3 +3,12 @@
   min-height: 100vh;
 }
 
+.toast {
+  z-index: 9999;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+
+  width: 25rem;
+  height: 3rem;
+}

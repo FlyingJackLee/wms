@@ -15,7 +15,7 @@ export class APIInterceptor implements HttpInterceptor {
               private router: Router) {
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      const apiReq = req.clone({ url: `http://127.0.0.1:8080/${req.url}` });
+      const apiReq = req.clone({ url: `http://192.168.31.242:8080/${req.url}` });
       return next.handle(apiReq).pipe(
         catchError((error: HttpErrorResponse) => {
           switch (error.status){

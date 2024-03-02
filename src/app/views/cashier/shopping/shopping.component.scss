@@ -1,38 +1,38 @@
 .flex-nowrap {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     height: 1080px;
-    font-family: Puhui;
+    font-family: Puhui, serif;
 }
 
 .select-area {
-    width: 60%;
-    height: 100%;
+    width: 40vw;
     padding: 10px;
+    margin-left: 5rem;
 }
 
 .order-area {
-    width: 35%;
+    width: 500px;
 }
 
 .card-button {
     font-weight: bold;
 }
 
-.list_area {
+.list-area {
     display: flex;
     flex-wrap: wrap;
 }
 
 .merchandise-detail {
-    width: 200px;
+    width: 50%;
     margin-right: 20px;
     margin-top: 20px;
 }
 
 .search {
-   width: 95%; 
+   width: 95%;
    margin-left: 20px;
    margin-right: 20px;
 }
@@ -49,7 +49,7 @@
     background-color: white;
 }
 
-.recepit-header {
+.receipt-header {
     text-align: center;
     margin-bottom: 10px;
     width: 100%;
@@ -57,8 +57,8 @@
     margin-top: 10px;
 }
 
-.recepit-header > p{
-    font-family: puhui;
+.receipt-header > p{
+    font-family: puhui, serif;
     font-size: 20px;
     font-weight: 200;
     color: #1d1d1d;
@@ -74,44 +74,40 @@
     overflow-y: auto;
 }
 
-.recepit-card {
-    width: 90%;
-    height: 60px;
-    border-bottom: 1px dashed #c1c1c1;
-    padding-top: 10px;
-    padding-left: 20px;
-    display: grid;
-    grid-template-areas: "model close"
-                        "imei price";
-    grid-template-rows: 30px 20px;
-    grid-template-columns: 0.2 0.6 0.2;
-
-    overflow: visible;
+.receipt-card {
+  width: 90%;
+  margin-top: 2rem;
+  border-bottom: 1px dashed #c1c1c1;
+  display: grid;
+  grid-template-areas: "model close"
+                      "imei price";
+  grid-template-rows: 2rem 2rem;
+  grid-template-columns: 1fr 1fr;
 }
 
 #model {
-    grid-area: model;
-    font-size: 22px;
-    font-weight: 600;
-    height: 30px;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  grid-area: model;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: start;
+  justify-content: flex-start;
+  padding-left: 1rem;
 }
 
 #imei {
-    grid-area: imei;
-    color: #454545;
-    font-weight: 200;
+  grid-area: imei;
+  color: #454545;
+  font-weight: 200;
+  align-items: start;
+  justify-content: flex-start;
+  padding-left: 1rem;
 }
 
 #price {
     grid-area: price;
     color: #454545;
-
     text-align: right;
-    margin-right: 60px;
 }
 
 #price > input {
@@ -119,22 +115,20 @@
 }
 
 #close {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    grid-area: close;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  grid-area: close;
 }
 
 #close > button{
-    padding-bottom: 5px;
-    margin-right: 50px;
-    margin-bottom: 25px;
+  padding-bottom: 5px;
+  margin-bottom: 25px;
 }
 
-
 .receipt-footer {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    padding-top: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  padding-top: 20px;
 }

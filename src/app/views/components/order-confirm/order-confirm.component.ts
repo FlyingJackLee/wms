@@ -1,7 +1,16 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -11,13 +20,26 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule} from '@angular/material/core';
+import {OrderService} from "../../../services/order.service";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {load} from "@angular-devkit/build-angular/src/utils/server-rendering/esm-in-memory-loader/loader-hooks";
+import {finalize} from "rxjs";
+import {ToastService} from "../../../services/toast.service";
+import {MatDialogRef} from "@angular/material/dialog";
+import {Order} from "../../../models/order";
+
+interface OrderConfirmForm {
+  date: FormControl<Date>;
+  remark: FormControl<string>;
+}
 
 @Component({
   selector: 'app-order-confirm',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule,
     MatInputModule, MatIconModule, MatDividerModule, MatButtonModule,
-    MatDatepickerModule, MatNativeDateModule],
+    MatDatepickerModule, MatNativeDateModule, MatProgressSpinnerModule, MatProgressBarModule],
   providers:[
 
     ],
@@ -25,27 +47,54 @@ import { MatNativeDateModule} from '@angular/material/core';
   styleUrl: './order-confirm.component.scss'
 })
 export class OrderConfirmComponent implements OnInit{
-  totalOringinalPrice: number = 0;
   totalSellingPrice: number = 0;
 
   today = new Date();
+  loading:boolean = false;
 
-  orderConfirmForm = this.formBuilder.group(
+  orderConfirmForm:FormGroup<OrderConfirmForm> = this.formBuilder.nonNullable.group(
     {
-      sellingDate: [this.today, Validators.required],
-      sellingRemark: ['']
+      date: [this.today, Validators.required],
+      remark: ['']
     });
 
-  constructor(@Inject(DIALOG_DATA) public data: { cart: Map<Merchandise, number>}, private formBuilder: FormBuilder) {}
+  constructor(@Inject(DIALOG_DATA) public data: { cart: Merchandise[]},
+              private dialogRef: MatDialogRef<OrderConfirmComponent>,
+              private formBuilder: FormBuilder,
+              private orderService:OrderService,
+              private toast: ToastService) {}
 
   ngOnInit(): void {
-    this.data.cart.forEach((value: number, key: Merchandise) => {
-      this.totalOringinalPrice += Number(key.price);
-      this.totalSellingPrice += Number(value);
+    this.data.cart.forEach((item: Merchandise) => {
+      this.totalSellingPrice += item.price;
     });
   }
 
   order() {
-    console.warn(this.orderConfirmForm.value);
+    this.loading = true;
+    if (this.orderConfirmForm.valid && this.data.cart.length > 0) {
+       let orders: Order[] = [];
+
+       this.data.cart.forEach(me => orders.push({
+         id: -1,
+         merchandise: me,
+         sellingPrice: me.price,
+         remark: this.orderConfirmForm.value.remark!,
+         sellingTime: this.orderConfirmForm.value.date!,
+         returned: false
+       }));
+
+       this.orderService.batchOrder(orders).pipe(
+         finalize(() => this.loading = true)
+       ).
+       subscribe({
+         complete: () => {
+           this.toast.push("提交成功", "success");
+           this.dialogRef.close({isSuccess: true});
+         }
+       });
+    } else {
+      this.loading = true;
+    }
   }
 }

@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import {MatDialog, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import {Component, EventEmitter, Output} from '@angular/core';
+
+import {debounceTime, flatMap, map, mergeMap, Observable, of, startWith, take, tap} from 'rxjs';
 import { Merchandise } from 'src/app/models/merchandise';
 import { MerchandiseService } from "src/app/services/merchandise.service";
+import {FormControl, Validators} from "@angular/forms";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector: 'app-search',
@@ -11,44 +13,35 @@ import { MerchandiseService } from "src/app/services/merchandise.service";
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent {
-  @Input() pageIndex:number = 0;
-  @Input() pageSize:number = 50;
+  @Output() selectEvent = new EventEmitter<Merchandise>();
+  searchControl = new FormControl('', [Validators.required])
+  result: Observable<Merchandise[]> = of();
 
-  @Output() results = new EventEmitter<Observable<Merchandise[]>>();
+  constructor(private service: MerchandiseService){
 
-  searchText!: string;
-  constructor(private matdialog: MatDialog, private service: MerchandiseService){}
+  }
 
   search() {
-    if(!this.searchText || !(this.searchText.trim())){
-        this.matdialog.open(EmptyDialogComponent, {
-      });
-    }
-    else {
-      // this.results.emit(this.service.searchMerchandies(this.searchText, this.pageIndex, this.pageSize));
+
+    if (this.searchControl.valid && this.searchControl.value) {
+      // 如果是对象 改为imei
+      let text = (typeof this.searchControl.value === "string") ? this.searchControl.value: (this.searchControl.value as Merchandise).imei;
+      this.result = this.service.searchMerchandise(text).pipe(
+        tap(mes => {
+          if (mes.length == 0) {
+            this.searchControl.setErrors({emptyResult: true});
+          }
+        })
+      );
     }
   }
 
-  // 清除搜索框
-  clear() {
-    this.searchText = "";
+  select(item:MatAutocompleteSelectedEvent) {
+    this.selectEvent.emit(item.option.value);
   }
-}
 
-@Component({
-  selector: 'empty-dialog',
-  standalone: true,
-  template: `
-    <h1 mat-dialog-title>错误</h1>
-    <div mat-dialog-content>
-      必须输入一个值用于搜索
-      <div></div>
-      <button mat-button color="warn" mat-dialog-close cdkFocusInitial>好的</button>
-    </div>
-  `,
-  imports: [MatDialogModule, MatButtonModule],
-
-})
-export class EmptyDialogComponent {
-  constructor(public dialogRef: MatDialogRef<EmptyDialogComponent>) {}
+  // 用于解构显示
+  displayFn(value: Merchandise){
+      return value.imei;
+  }
 }
