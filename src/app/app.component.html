@@ -1,5 +1,5 @@
 <!-- 消息通知 -->
-<toast class="toast" [message]="toastService.message" [level]="toastService.level" (clean)="clear()"></toast>
+<toast class="toast" [style.pointer-events]="toastService.message ? 'auto' : 'none'" [message]="toastService.message" [level]="toastService.level" (clean)="clear()"></toast>
 
 <router-outlet></router-outlet>
 

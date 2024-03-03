@@ -43,6 +43,8 @@ import {CreateMerchandiseComponent} from "./views/components/create-merchandise/
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {ReceiptPrintComponent} from "./views/components/receipt/receipt-print.component";
+import {ChineseCapitalPipe} from "./pipes/ChineseCapital";
 
 const WMS_DATE_FORMAT = {
   parse: {
@@ -105,7 +107,9 @@ const WMS_DATE_FORMAT = {
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ReceiptPrintComponent,
+    ChineseCapitalPipe
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: WMS_DATE_FORMAT },

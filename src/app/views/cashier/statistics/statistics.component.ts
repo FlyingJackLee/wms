@@ -1,15 +1,23 @@
-import {Component, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Inject, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {Order} from "../../../models/order";
-import {MatDialog} from "@angular/material/dialog";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {OrderService} from "../../../services/order.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatCheckboxChange} from "@angular/material/checkbox";
-import {
-  DialogDeleteMerchandiseComponent
-} from "../inventory/dialog-delete-merchandise/dialog-delete-merchandise.component";
 import {DialogReturnConfirmComponent} from "./dialog-return-confirm/dialog-return-confirm.component";
+import {Merchandise} from "../../../models/merchandise";
+import {NgxPrintService, PrintOptions} from "ngx-print";
+import {MatButtonModule} from "@angular/material/button";
+import {ReceiptPrintComponent} from "../../components/receipt/receipt-print.component";
 
 interface DateRangeForm {
   start: FormControl<Date>;
@@ -22,19 +30,25 @@ interface DateRangeForm {
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent {
-  displayedColumns: string[] = ['id', 'cate_name', 'imei' ,'cost', 'selling_price', 'selling_time', 'remark' , 'returned'];
+  displayedColumns: string[] = ['id', 'cate_name', 'imei', 'cost', 'selling_price', 'selling_time', 'remark', 'returned', "reprint"];
   dataSource = new MatTableDataSource<Order>();
   containReturned: boolean = true;
   hideCost: boolean = true;
 
   form = new FormGroup<DateRangeForm>({
-    start: new FormControl<Date>(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0), { nonNullable: true, validators: Validators.required}),
-    end: new FormControl<Date>(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 23, 59, 59), { nonNullable: true, validators: Validators.required}),
+    start: new FormControl<Date>(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0), {
+      nonNullable: true,
+      validators: Validators.required
+    }),
+    end: new FormControl<Date>(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 23, 59, 59), {
+      nonNullable: true,
+      validators: Validators.required
+    }),
   });
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private orderService:OrderService, public dialog: MatDialog) {}
+  constructor(private orderService: OrderService, public dialog: MatDialog) {
+  }
 
   ngAfterViewInit() {
     this._refreshData();
@@ -47,7 +61,6 @@ export class StatisticsComponent {
     };
 
   }
-
 
   applyFilter(event: Event | MatCheckboxChange) {
     if (event instanceof MatCheckboxChange) {
@@ -96,5 +109,45 @@ export class StatisticsComponent {
         this.dataSource.data = orders;
       }
     );
+  }
+
+  print(order: Order){
+    if (order && order.merchandise){
+      this.dialog.open(DialogPrintConfirmComponent,{
+        width: '160px',
+        height: '120px',
+        data: order.merchandise
+      })
+    }
+  }
+}
+
+@Component({
+  template: `
+    <h1 mat-dialog-title>确定打印？</h1>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close >取消</button>
+        <button mat-raised-button color="primary" mat-dialog-close (click)="confirm()">确认</button>
+    </mat-dialog-actions>
+    <app-receipt #receipt [data]="[data]"></app-receipt>
+  `,
+  selector: 'diaglo-print-confirm',
+  imports: [
+    MatDialogTitle,
+    MatDialogActions,
+    MatDialogClose,
+    MatButtonModule,
+    ReceiptPrintComponent
+  ],
+  standalone: true
+})
+class DialogPrintConfirmComponent{
+  @ViewChild('receipt') receipt!:ReceiptPrintComponent;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Merchandise,
+              private dialogRef: MatDialogRef<DialogPrintConfirmComponent>) {
+  }
+
+  confirm(){
+    this.receipt.print();
   }
 }

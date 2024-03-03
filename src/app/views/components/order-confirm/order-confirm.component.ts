@@ -1,6 +1,6 @@
-import { DIALOG_DATA } from '@angular/cdk/dialog';
+import {Dialog, DIALOG_DATA} from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -26,8 +26,10 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {load} from "@angular-devkit/build-angular/src/utils/server-rendering/esm-in-memory-loader/loader-hooks";
 import {finalize} from "rxjs";
 import {ToastService} from "../../../services/toast.service";
-import {MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Order} from "../../../models/order";
+import {NgxPrintModule} from "ngx-print";
+import {ReceiptPrintComponent} from "../receipt/receipt-print.component";
 
 interface OrderConfirmForm {
   date: FormControl<Date>;
@@ -37,9 +39,9 @@ interface OrderConfirmForm {
 @Component({
   selector: 'app-order-confirm',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule,
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, NgxPrintModule,
     MatInputModule, MatIconModule, MatDividerModule, MatButtonModule,
-    MatDatepickerModule, MatNativeDateModule, MatProgressSpinnerModule, MatProgressBarModule],
+    MatDatepickerModule, MatNativeDateModule, MatProgressSpinnerModule, MatProgressBarModule, ReceiptPrintComponent],
   providers:[
 
     ],
@@ -48,9 +50,10 @@ interface OrderConfirmForm {
 })
 export class OrderConfirmComponent implements OnInit{
   totalSellingPrice: number = 0;
-
   today = new Date();
   loading:boolean = false;
+
+  @ViewChild("receipt") receipt!: ReceiptPrintComponent;
 
   orderConfirmForm:FormGroup<OrderConfirmForm> = this.formBuilder.nonNullable.group(
     {
@@ -91,6 +94,7 @@ export class OrderConfirmComponent implements OnInit{
          complete: () => {
            this.toast.push("提交成功", "success");
            this.dialogRef.close({isSuccess: true});
+           this.receipt.print();
          }
        });
     } else {

@@ -34,7 +34,7 @@ const routes: Routes = [
       { path: "statistics", component: StatisticsComponent },
     ]
   },
-  { path: "**", component: PageNotFoundComponent },
+  { path: "**", redirectTo: '/cashier' },
 ];
 
 @NgModule({

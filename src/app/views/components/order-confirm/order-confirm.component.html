@@ -15,10 +15,9 @@
         <mat-label>销售备注:</mat-label>
         <textarea matInput type="text" formControlName="remark"></textarea>
     </mat-form-field>
-
     <button mat-raised-button color="primary" type="submit" [disabled]="!orderConfirmForm.valid || loading">提交</button>
 </form>
-
+<app-receipt [data]="data.cart" #receipt></app-receipt>
 @if(loading){
   <mat-progress-bar mode="query"></mat-progress-bar>
 }

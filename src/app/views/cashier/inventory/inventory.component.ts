@@ -14,20 +14,26 @@ import {DialogEditComponent} from "./dialog-edit-component/dialog-edit.component
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements AfterViewInit{
-  count:number = 0;
+export class InventoryComponent implements AfterViewInit {
+  count: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'cate_name', 'imei','cost', 'price', 'create_date', 'edit', 'delete'];
+  displayedColumns: string[] = ['id', 'cate_name', 'imei', 'cost', 'price', 'create_date', 'edit', 'delete'];
   dataSource = new MatTableDataSource<Merchandise>();
 
   hideCost: boolean = true;
 
-  constructor(private merchandiseService:MerchandiseService, public dialog: MatDialog) {}
+  constructor(private merchandiseService: MerchandiseService, public dialog: MatDialog) {
+  }
 
   ngAfterViewInit() {
-    this._refreshData();
+    this.merchandiseService.getMerchandiseByPage(0, 500).subscribe(
+      data => {
+        this.count = data.count;
+        this.dataSource.data = data.merchandise;
+      }
+    );
     this.dataSource.paginator = this.paginator;
   }
 
@@ -45,21 +51,20 @@ export class InventoryComponent implements AfterViewInit{
   select(category: Category) {
     this.merchandiseService.getMerchandisesByCateId(category.id).subscribe(
       data => {
-          this.dataSource.data = data;
-          this.count = data.length;
+        this.dataSource.data = data;
+        this.count = data.length;
       }
-  );
+    );
   }
 
   openDeleteDialog(me: Merchandise) {
-    this.dialog.open(DialogDeleteMerchandiseComponent,{
+    this.dialog.open(DialogDeleteMerchandiseComponent, {
       width: '300px',
       height: '300px',
       data: me
-    }).afterClosed().subscribe(result =>
-      {
+    }).afterClosed().subscribe(result => {
         // 删除结束后刷新
-        if (result.data){
+        if (result.data) {
           this.select(result.data.category);
         }
       }
@@ -67,26 +72,16 @@ export class InventoryComponent implements AfterViewInit{
   }
 
   openEditDialog(me: Merchandise) {
-    this.dialog.open(DialogEditComponent,{
+    this.dialog.open(DialogEditComponent, {
       width: '350px',
       height: '420px',
       data: me
-    }).afterClosed().subscribe(result =>
-      {
+    }).afterClosed().subscribe(result => {
         // 修改后刷新
-        if (result.data){
+        if (result.data) {
           this.select(result.data.category);
         }
       }
-    );;
-  }
-
-  private _refreshData() {
-    this.merchandiseService.getMerchandiseByPage(0, 999).subscribe(
-        data => {
-            this.count = data.count;
-            this.dataSource.data = data.merchandise;
-        }
     );
   }
 }
