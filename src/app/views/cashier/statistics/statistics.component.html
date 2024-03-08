@@ -123,4 +123,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="row.returned ? 'returned': ''"></tr>
   </table>
   <mat-paginator [length]="dataSource.filteredData.length" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+  <button mat-raised-button type="button" (click)="saveToExcel()"> 导出为表格</button>
 </section>

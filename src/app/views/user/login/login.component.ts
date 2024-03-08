@@ -1,20 +1,17 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {Component} from '@angular/core';
-import {
-  FormControl, FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 import {MatDividerModule} from "@angular/material/divider";
 import {Router, RouterModule} from "@angular/router";
 import {AuthService} from "../../../services/auth.service";
 import {UserService} from "../../../services/user.service";
-import { finalize } from "rxjs";
+import {finalize} from "rxjs";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {PreventEnterDirective} from "../../../directives/prevent-enter.directive";
 
 interface LoginForm {
   username?: FormControl<string>;
@@ -25,7 +22,7 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatDividerModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatProgressBarModule],
+  imports: [CommonModule, RouterModule, MatDividerModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatProgressBarModule, PreventEnterDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

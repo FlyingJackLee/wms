@@ -4,7 +4,7 @@ import {catchError, Observable, throwError} from "rxjs";
 import {ToastService} from "../services/toast.service";
 import {AuthService} from "../services/auth.service";
 import {Router} from "@angular/router";
-
+import {environment} from "../../environments/environment"
 /**
  * 设置统一的请求头, 统一的错误厝里
  */
@@ -15,8 +15,8 @@ export class APIInterceptor implements HttpInterceptor {
               private router: Router) {
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      const apiReq = req.clone({ url: `http://192.168.31.242:8080/${req.url}` });
-      return next.handle(apiReq).pipe(
+    const apiReq = req.clone({ url: `${environment.apiUrl}/${req.url}` });
+     return next.handle(apiReq).pipe(
         catchError((error: HttpErrorResponse) => {
           switch (error.status){
             case 0: this.toast.push("网络错误，请重试", "error"); break;

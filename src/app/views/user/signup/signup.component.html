@@ -34,7 +34,7 @@
         <mat-form-field>
           <mat-label>邮箱验证码</mat-label>
           <input matInput formControlName="code">
-          <button [disabled]="emailSignupForm.controls.email.invalid || codeSendCount > 0 " mat-raised-button color="primary" matSuffix #codeBut (click)="sendCode()">
+          <button preventEnter [disabled]="emailSignupForm.controls.email.invalid || codeSendCount > 0 " mat-raised-button color="primary" matSuffix #codeBut (click)="sendCode()">
             {{ codeSendCount == 0 ? "发送验证码" : codeSendCount }}
           </button>
           @if (emailSignupForm.controls.code.invalid && (emailSignupForm.touched || emailSignupForm.dirty) ) {
@@ -46,7 +46,7 @@
       <mat-form-field>
         <mat-label>密码</mat-label>
         <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-        <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        <button preventEnter tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         @if (activateForm.controls['password'].invalid && (activateForm.touched || activateForm.dirty) ) {
@@ -57,7 +57,7 @@
       <mat-form-field>
         <mat-label>确认密码</mat-label>
         <input matInput formControlName="confirmPassword" [errorStateMatcher]="passwordConfirmMatcher" [type]="hidePassword ? 'password' : 'text'">
-        <button tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        <button preventEnter tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         @if (activateForm.invalid && (activateForm.touched || activateForm.dirty) ) {

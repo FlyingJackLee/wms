@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
-  FormGroup, FormGroupDirective,
-  FormsModule, NgForm,
-  ReactiveFormsModule, ValidationErrors,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  ValidationErrors,
   ValidatorFn,
   Validators
 } from "@angular/forms";
@@ -20,6 +23,7 @@ import {finalize, interval, takeWhile} from "rxjs";
 import {UserService} from "../../../services/user.service";
 import {ToastService} from "../../../services/toast.service";
 import {EmailUniqueValidator, UsernameUniqueValidator} from "./signup.validators";
+import {PreventEnterDirective} from "../../../directives/prevent-enter.directive";
 
 interface BaseSignupForm {
   password: FormControl<string>;
@@ -51,17 +55,18 @@ export class PasswordConfirmMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-signup',
   standalone: true,
-    imports: [
-        FormsModule,
-        RouterModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatProgressBarModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    FormsModule,
+    RouterModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressBarModule,
+    ReactiveFormsModule,
+    PreventEnterDirective
+  ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })

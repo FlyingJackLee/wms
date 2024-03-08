@@ -1,36 +1,25 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
-  FormGroup, FormGroupDirective,
-  FormsModule, NgForm,
-  ReactiveFormsModule, ValidationErrors,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  ValidationErrors,
   ValidatorFn,
   Validators
 } from "@angular/forms";
-import {MatButton, MatButtonModule} from "@angular/material/button";
+import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {Router, RouterModule} from "@angular/router";
 import {ErrorStateMatcher} from "@angular/material/core";
-import {
-  finalize,
-  fromEvent,
-  interval,
-  map,
-  mapTo,
-  Observable,
-  take,
-  takeUntil,
-  takeWhile,
-  tap,
-  throttleTime,
-  timer
-} from "rxjs";
+import {finalize, interval, takeWhile} from "rxjs";
 import {UserService} from "../../../services/user.service";
-import {MatDialog} from "@angular/material/dialog";
 import {ToastService} from "../../../services/toast.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 

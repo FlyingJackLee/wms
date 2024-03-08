@@ -5,9 +5,18 @@ section {
 }
 
 .statistics {
+  display: flex;
   padding: 1rem;
 }
 .mat-mdc-form-field {
   font-size: 14px;
   width: 100%;
+}
+
+.statistics-card {
+  margin-left: 1rem;
+  padding-right: 1rem;
+  border-right: 1px dashed #bbbbbb;
+
+  flex-grow: 1;
 }

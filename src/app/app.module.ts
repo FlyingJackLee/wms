@@ -1,45 +1,44 @@
-import { ErrorHandler, Injectable, NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonToggleModule} from '@angular/material/button-toggle';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
-import { MatSidenavModule} from '@angular/material/sidenav';
-import { MatListModule} from '@angular/material/list';
-import { MatIconModule} from '@angular/material/icon';
-import { MatToolbarModule} from '@angular/material/toolbar';
-import { MatButtonModule} from '@angular/material/button';
-import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
-import { CategorySelectComponent } from './views/components/category-select/category-select.component';
-import { ShoppingComponent } from './views/cashier/shopping/shopping.component';
-import { InventoryComponent } from './views/cashier/inventory/inventory.component';
-import { StatisticsComponent } from './views/cashier/statistics/statistics.component';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatCardModule} from '@angular/material/card';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatButtonModule} from '@angular/material/button';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {CategorySelectComponent} from './views/components/category-select/category-select.component';
+import {ShoppingComponent} from './views/cashier/shopping/shopping.component';
+import {InventoryComponent} from './views/cashier/inventory/inventory.component';
+import {StatisticsComponent} from './views/cashier/statistics/statistics.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatCardModule} from '@angular/material/card';
 
-import { MatInputModule} from '@angular/material/input';
-import { MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { MatDialogModule} from '@angular/material/dialog';
-import { SearchComponent } from './views/components/search/search.component';
-import { ToastComponent }  from 'src/app/views/components/toast/toast.component'
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatDialogModule} from '@angular/material/dialog';
+import {SearchComponent} from './views/components/search/search.component';
+import {ToastComponent} from 'src/app/views/components/toast/toast.component'
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatTableModule} from '@angular/material/table';
 
-import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
-import { JwtModule } from '@auth0/angular-jwt';
-import { AuthService, getJWTToken } from './services/auth.service';
-import { APIInterceptor } from './interceptors/api-interceptor';
+import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import {JwtModule} from '@auth0/angular-jwt';
+import {AuthService, getJWTToken} from './services/auth.service';
+import {APIInterceptor} from './interceptors/api-interceptor';
 import {ToastService} from "./services/toast.service";
 import {CashierComponent} from "./views/cashier/cashier/cashier.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {Router} from "@angular/router";
 import {MatTabsModule} from "@angular/material/tabs";
 import {CategoryManageComponent} from "./views/components/category-manage/category-manage.component";
-import {CreateMerchandiseComponent} from "./views/components/create-merchandise/create-merchandise.component";
+import {CreateMerchandiseComponent} from "./views/cashier/inventory/create-merchandise/create-merchandise.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCheckboxModule} from "@angular/material/checkbox";
@@ -75,8 +74,8 @@ const WMS_DATE_FORMAT = {
     JwtModule.forRoot({
       config: {
         tokenGetter: getJWTToken,
-        // TODO 正式环境需要添加domian
-        allowedDomains: ["127.0.0.1:8080, localohost:8080"],
+        // TODO 正式环境需要添加domain
+        allowedDomains: ["127.0.0.1:8080, localhost:8080"],
         disallowedRoutes: ["//user/**"],
         skipWhenExpired: true
       }

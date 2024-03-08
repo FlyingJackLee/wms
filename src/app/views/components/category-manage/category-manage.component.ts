@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
-import {FormBuilder, FormsModule} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {Category} from "../../../models/category";
 import {CategoryService} from "../../../services/category.service";
 import {AsyncPipe} from "@angular/common";
