@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
-  FormGroup, FormGroupDirective,
-  FormsModule, NgForm,
-  ReactiveFormsModule, ValidationErrors,
+  FormGroup,
+  FormGroupDirective,
+  FormsModule,
+  NgForm,
+  ReactiveFormsModule,
+  ValidationErrors,
   ValidatorFn,
   Validators
 } from "@angular/forms";

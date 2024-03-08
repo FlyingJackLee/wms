@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Inject, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {Order} from "../../../models/order";
@@ -15,7 +15,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {DialogReturnConfirmComponent} from "./dialog-return-confirm/dialog-return-confirm.component";
 import {Merchandise} from "../../../models/merchandise";
-import {NgxPrintService, PrintOptions} from "ngx-print";
 import {MatButtonModule} from "@angular/material/button";
 import {ReceiptPrintComponent} from "../../components/receipt/receipt-print.component";
 import {utils, writeFileXLSX} from "xlsx";

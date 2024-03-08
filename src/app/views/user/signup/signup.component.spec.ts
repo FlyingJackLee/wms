@@ -1,6 +1,6 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { SignupComponent } from './signup.component';
+import {SignupComponent} from './signup.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {UserService} from "../../../services/user.service";
 import {ToastService} from "../../../services/toast.service";

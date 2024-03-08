@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {DatePipe, DecimalPipe} from "@angular/common";
 import {NgxPrintDirective, NgxPrintService, PrintOptions} from "ngx-print";
 import {Merchandise} from "../../../models/merchandise";

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {ToastService} from "./services/toast.service";
-import {Title} from "@angular/platform-browser";
 
 
 @Component({

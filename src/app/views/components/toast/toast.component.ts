@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatIconModule} from '@angular/material/icon';
-import { MatButtonModule} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 
 export type Level = "" | "success" | "information" | "warning" | "error";
 
@@ -15,7 +15,7 @@ export type Level = "" | "success" | "information" | "warning" | "error";
 export class ToastComponent {
   @Input() level!: Level;
   @Input() message!: string;
-  
+
   @Output() clean = new EventEmitter();
 
   bg_color_map = {

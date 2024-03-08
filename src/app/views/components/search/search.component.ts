@@ -1,11 +1,10 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 
-import {debounceTime, flatMap, map, mergeMap, Observable, of, startWith, take, tap} from 'rxjs';
-import { Merchandise } from 'src/app/models/merchandise';
-import { MerchandiseService } from "src/app/services/merchandise.service";
+import {Observable, of, tap} from 'rxjs';
+import {Merchandise} from 'src/app/models/merchandise';
+import {MerchandiseService} from "src/app/services/merchandise.service";
 import {FormControl, Validators} from "@angular/forms";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {ToastService} from "../../../services/toast.service";
 
 @Component({
   selector: 'app-search',

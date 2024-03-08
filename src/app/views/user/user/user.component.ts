@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {MatToolbarModule} from "@angular/material/toolbar";
 
 @Component({

@@ -7,6 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {RouterModule} from '@angular/router';
 import {MatButtonModule} from "@angular/material/button";
 import {ChineseCapitalPipe} from "../../../pipes/ChineseCapital";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-cashier',
@@ -16,4 +17,10 @@ import {ChineseCapitalPipe} from "../../../pipes/ChineseCapital";
   styleUrl: './cashier.component.scss'
 })
 export class CashierComponent {
+  constructor(private authService:AuthService) {
+  }
+  logout() {
+    this.authService.clear();
+    location.reload();
+  }
 }

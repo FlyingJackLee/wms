@@ -1,9 +1,9 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import { ForgetComponent } from './forget.component';
+import {ForgetComponent} from './forget.component';
 import {UserService} from "../../../services/user.service";
 import {ToastService} from "../../../services/toast.service";
-import {delay, of, timer} from "rxjs";
+import {delay, of} from "rxjs";
 import {By} from "@angular/platform-browser";
 import {RouterTestingModule} from "@angular/router/testing";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";

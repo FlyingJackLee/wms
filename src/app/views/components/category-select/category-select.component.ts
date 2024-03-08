@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { Category } from 'src/app/models/category';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {Category} from 'src/app/models/category';
 
-import { CategoryService } from 'src/app/services/category.service'
-import { MerchandiseService } from 'src/app/services/merchandise.service';
+import {CategoryService} from 'src/app/services/category.service'
 
 @Component({
   selector: 'app-category-select',
