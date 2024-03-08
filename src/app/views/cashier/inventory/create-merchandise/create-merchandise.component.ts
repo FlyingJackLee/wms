@@ -14,7 +14,7 @@ import {Category} from "../../../../models/category";
 import {ToastService} from "../../../../services/toast.service";
 import {MerchandiseService} from "../../../../services/merchandise.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {finalize} from "rxjs";
+import {finalize, first} from "rxjs";
 import {PreventEnterDirective} from "../../../../directives/prevent-enter.directive";
 
 interface MerchandiseInsertForm{
@@ -79,6 +79,11 @@ export class CreateMerchandiseComponent{
   select(cate:Category) {
     this.selectedCategory = cate;
     this.form.controls.cate.setValue(cate.id);
+
+    this.merchandiseService.getMerchandisesByCateId(cate.id).pipe(first()).subscribe(data => {
+      this.form.controls.cost.setValue(data[0].cost);
+      this.form.controls.price.setValue(data[0].price);
+    });
   }
 
   submit() {
@@ -95,7 +100,8 @@ export class CreateMerchandiseComponent{
           complete: () =>
           {
             this.toast.push("添加成功", "success");
-            this.form.reset();
+            this.form.controls.cost.reset();
+            this.form.controls.price.reset();
             this.imeiSet = new Set<string>();
           }
         });
