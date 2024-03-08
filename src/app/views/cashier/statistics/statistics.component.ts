@@ -18,6 +18,7 @@ import {Merchandise} from "../../../models/merchandise";
 import {NgxPrintService, PrintOptions} from "ngx-print";
 import {MatButtonModule} from "@angular/material/button";
 import {ReceiptPrintComponent} from "../../components/receipt/receipt-print.component";
+import {utils, writeFileXLSX} from "xlsx";
 
 interface DateRangeForm {
   start: FormControl<Date>;
@@ -118,6 +119,50 @@ export class StatisticsComponent {
         data: order.merchandise
       })
     }
+  }
+
+  saveToExcel() {
+    const wb = utils.book_new();
+    // 设置表头
+    const heading = [["序号", "型号", "串号", "成本", "实际售价", "是否退货" , "录入时间", "备注"]];
+
+    // map去除不需要的列
+    let data = this.dataSource.filteredData.map(item => {
+      return {
+        id: item.id,
+        cate: item.merchandise.category.name,
+        imei: item.merchandise.imei,
+        cost: item.merchandise.cost,
+        sellingPrice: item.sellingPrice,
+        returned: item.returned ? "已退货" : "",
+        time: item.sellingTime,
+        remark: item.remark,
+      }
+    })
+
+    const ws = utils.json_to_sheet([]);
+    utils.sheet_add_aoa(ws, heading)
+    utils.sheet_add_json(ws, data, {origin: 'A2', skipHeader: true});
+    delete (ws['06'])
+
+    // 设置单元格间距
+    var wscols = [
+      {wch:6},
+      {wch:10},
+      {wch:30},
+      {wch:10},
+      {wch:10},
+      {wch:20},
+      {wch:50},
+      {wch:50},
+    ];
+    ws['!cols'] = wscols;
+
+    utils.book_append_sheet(wb, ws, "Sheet1");
+    const fileName = "销售情况" + "_" +  new Date().getFullYear() +
+      "_" +  (new Date().getMonth() + 1) +
+      "_" +  new Date().getDay() + ".xlsx";
+    writeFileXLSX(wb, fileName);
   }
 }
 
