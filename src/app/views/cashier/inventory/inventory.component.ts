@@ -8,13 +8,14 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog} from "@angular/material/dialog";
 import {DialogDeleteMerchandiseComponent} from "./dialog-delete-merchandise/dialog-delete-merchandise.component";
 import {DialogEditComponent} from "./dialog-edit-component/dialog-edit.component";
+import {Order} from "../../../models/order";
 
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.component.html',
   styleUrls: ['./inventory.component.scss']
 })
-export class InventoryComponent implements AfterViewInit {
+export class InventoryComponent implements OnInit {
   count: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -27,7 +28,7 @@ export class InventoryComponent implements AfterViewInit {
   constructor(private merchandiseService: MerchandiseService, public dialog: MatDialog) {
   }
 
-  ngAfterViewInit() {
+  ngOnInit () {
     this.merchandiseService.getMerchandiseByPage(0, 500).subscribe(
       data => {
         this.count = data.count;
@@ -35,6 +36,11 @@ export class InventoryComponent implements AfterViewInit {
       }
     );
     this.dataSource.paginator = this.paginator;
+
+    this.dataSource.filterPredicate = (data: Merchandise, filter: string) => {
+      return( data.category.name.toLowerCase().includes(filter.trim())
+          || data.imei.toLowerCase().includes(filter.trim()))
+    };
   }
 
   applyFilter(event: Event) {
@@ -83,5 +89,20 @@ export class InventoryComponent implements AfterViewInit {
         }
       }
     );
+  }
+
+  total(mode: string) {
+    let result;
+    switch (mode) {
+      case 'cost' :
+        result = this.dataSource.filteredData.reduce((prev, cur, index, arr) =>
+          prev + cur.cost, 0);
+        break;
+      case 'price' : result = this.dataSource.filteredData.reduce((prev, cur, index, arr) =>
+        prev + cur.price, 0);
+        break;
+      default:
+    }
+    return result;
   }
 }

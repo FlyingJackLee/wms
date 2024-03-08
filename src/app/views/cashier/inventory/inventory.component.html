@@ -3,8 +3,22 @@
     <section>
       <app-category-select (select)="select($event)"></app-category-select>
       <div class="statistics">
-        <h3>当前数量</h3>
-        <h1>{{ count }} <span>台</span></h1>
+        <div class="statistics-card">
+          <h3><mat-icon color="accent">tag </mat-icon> 当前数量</h3>
+          <h1>{{ dataSource.filteredData.length }} <span>台</span></h1>
+        </div>
+        <div class="statistics-card">
+          <h3><mat-icon color="accent">credit_card</mat-icon> 总成本
+            <button mat-icon-button matSuffix (click)="hideCost = !hideCost" [attr.aria-label]="'Hide cost'" [attr.aria-pressed]="hideCost">
+              <mat-icon>{{hideCost ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </h3>
+          <h1>@if(hideCost) {****} @else { {{ total('cost') }} }<span>元</span></h1>
+        </div>
+        <div class="statistics-card">
+          <h3><mat-icon color="accent">point_of_sale</mat-icon> 总售价</h3>
+          <h1>{{ total('price') }}<span>元</span></h1>
+        </div>
       </div>
 
       <mat-form-field class="filter">

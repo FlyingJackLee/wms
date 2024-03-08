@@ -59,7 +59,6 @@ export class StatisticsComponent {
         ( data.merchandise.category.name.toLowerCase().includes(filter.trim())
           || data.merchandise.imei.toLowerCase().includes(filter.trim()));
     };
-
   }
 
   applyFilter(event: Event | MatCheckboxChange) {

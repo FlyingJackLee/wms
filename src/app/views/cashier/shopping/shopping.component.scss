@@ -3,7 +3,6 @@
     flex-direction: row;
     flex-wrap: wrap;
     height: 1080px;
-    font-family: Puhui, serif;
 }
 
 .select-area {
@@ -58,7 +57,6 @@
 }
 
 .receipt-header > p{
-    font-family: puhui, serif;
     font-size: 20px;
     font-weight: 200;
     color: #1d1d1d;
@@ -90,7 +88,7 @@
   font-size: 1rem;
   font-weight: 600;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: flex-start;
   padding-left: 1rem;
 }
@@ -99,7 +97,7 @@
   grid-area: imei;
   color: #454545;
   font-weight: 200;
-  align-items: start;
+  align-items: flex-start;
   justify-content: flex-start;
   padding-left: 1rem;
 }

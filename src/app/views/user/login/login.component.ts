@@ -15,6 +15,7 @@ import {AuthService} from "../../../services/auth.service";
 import {UserService} from "../../../services/user.service";
 import { finalize } from "rxjs";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {PreventEnterDirective} from "../../../directives/prevent-enter.directive";
 
 interface LoginForm {
   username?: FormControl<string>;
@@ -25,7 +26,7 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatDividerModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatProgressBarModule],
+  imports: [CommonModule, RouterModule, MatDividerModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatProgressBarModule, PreventEnterDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

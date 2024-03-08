@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, tap } from 'rxjs';
 import { Category } from 'src/app/models/category';
 import { Merchandise } from 'src/app/models/merchandise';
-import { OrderConfirmComponent } from '../../components/order-confirm/order-confirm.component';
+import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import {Event} from "@angular/router";
 
 @Component({
