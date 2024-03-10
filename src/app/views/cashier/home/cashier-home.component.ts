@@ -27,7 +27,7 @@ export class CashierHomeComponent implements OnInit{
 
   warnNotice: Notice = {
     id: 1,
-    type: "update",
+    type: "wan",
     publishTime: new Date(),
     content: "无"
   };
@@ -49,7 +49,7 @@ export class CashierHomeComponent implements OnInit{
       }
     });
 
-    this.noticeService.getNotice("warn").subscribe(data => {
+    this.noticeService.getNotice("update").subscribe(data => {
       if (data.content && data.content.length > 1) {
         this.updateNotice = data;
       }

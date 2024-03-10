@@ -48,4 +48,9 @@ export class CashierComponent implements AfterViewInit{
     this.authService.clear();
     location.reload();
   }
+
+  clearTour() {
+    this.introService.clear();
+    location.reload();
+  }
 }

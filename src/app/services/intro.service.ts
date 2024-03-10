@@ -55,4 +55,13 @@ export class IntroService {
       case "statistics": localStorage.setItem(IntroService.CASHIER_STATISTICS_SHOW, "true"); break;
     }
   }
+
+  clear() {
+    localStorage.removeItem(IntroService.CASHIER_HOME_SHOW);
+    localStorage.removeItem(IntroService.CASHIER_SHOPPING_SHOW);
+    localStorage.removeItem(IntroService.CASHIER_Inventory_HOME_SHOW);
+    localStorage.removeItem(IntroService.CASHIER_Inventory_CREATE_SHOW);
+    localStorage.removeItem(IntroService.CASHIER_Inventory_EDIT_SHOW);
+    localStorage.removeItem(IntroService.CASHIER_STATISTICS_SHOW);
+  }
 }

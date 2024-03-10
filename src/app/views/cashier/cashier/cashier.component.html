@@ -5,7 +5,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <a routerLink="/cashier/home">销售宝</a>
-    <button mat-flat-button color="primary">开启新手导航</button>
+    <button id="tour-button" (click)="clearTour()" mat-flat-button color="primary">开启新手导航</button>
     <button id="logout-button" (click)="logout()" mat-flat-button color="primary">退出登录</button>
   </mat-toolbar>
 
