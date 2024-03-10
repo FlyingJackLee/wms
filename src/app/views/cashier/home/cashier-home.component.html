@@ -6,7 +6,7 @@
       <mat-card-header>
         <div mat-card-avatar><mat-icon color="primary">notifications</mat-icon></div>
         <mat-card-title>重要消息</mat-card-title>
-        <mat-card-subtitle>{{ today | date: 'yyyy年MM月dd日'}}</mat-card-subtitle>
+        <mat-card-subtitle>{{ warnNotice.publishTime | date: 'yyyy年MM月dd日 | hh:mm:dd'}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content class="card-content" [innerHTML]="warnNotice.content">
       </mat-card-content>
@@ -16,7 +16,7 @@
       <mat-card-header>
         <div mat-card-avatar><mat-icon color="accent">notifications</mat-icon></div>
         <mat-card-title>更新通告</mat-card-title>
-        <mat-card-subtitle>{{ today | date: 'yyyy年MM月dd日'}}</mat-card-subtitle>
+        <mat-card-subtitle>{{ updateNotice.publishTime | date: 'yyyy年MM月dd日 hh:mm:dd'}}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content class="card-content" [innerHTML]="updateNotice.content">
       </mat-card-content>
