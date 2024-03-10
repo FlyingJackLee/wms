@@ -17,6 +17,7 @@ import {CashierComponent} from './views/cashier/cashier/cashier.component';
 import {AuthService} from './services/auth.service';
 import {ForgetComponent} from "./views/user/forget/forget.component";
 import {SignupComponent} from "./views/user/signup/signup.component";
+import {CashierHomeComponent} from "./views/cashier/home/cashier-home.component";
 
 export const authGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
@@ -35,6 +36,7 @@ const routes: Routes = [
   {
     path: "cashier", component: CashierComponent, canActivate: [authGuard],
     children: [
+      { path: "home", component: CashierHomeComponent },
       { path: "shopping", component: ShoppingComponent},
       { path: "inventory", component: InventoryComponent},
       { path: "statistics", component: StatisticsComponent },

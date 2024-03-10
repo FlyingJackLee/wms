@@ -21,7 +21,6 @@ export class SearchComponent {
   }
 
   search() {
-
     if (this.searchControl.valid && this.searchControl.value) {
       // 如果是对象 改为imei
       let text = (typeof this.searchControl.value === "string") ? this.searchControl.value: (this.searchControl.value as Merchandise).imei;
