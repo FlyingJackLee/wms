@@ -7,7 +7,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 
 import {MatIconModule} from "@angular/material/icon";
-import {CategoryManageComponent} from "../../../components/category-manage/category-manage.component";
+import {CategoryManageComponent} from "../category-manage/category-manage.component";
 import {MatListModule} from "@angular/material/list";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {Category} from "../../../../models/category";

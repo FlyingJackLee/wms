@@ -9,10 +9,10 @@ import {
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {CategoryService} from "../../../../services/category.service";
+import {CategoryService} from "../../../../../services/category.service";
 import {finalize} from "rxjs";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {ToastService} from "../../../../services/toast.service";
+import {ToastService} from "../../../../../services/toast.service";
 
 @Component({
   selector: 'app-dialog-add-brand',
