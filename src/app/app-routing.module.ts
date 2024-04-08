@@ -18,6 +18,11 @@ import {AuthService} from './services/auth.service';
 import {ForgetComponent} from "./views/user/forget/forget.component";
 import {SignupComponent} from "./views/user/signup/signup.component";
 import {CashierHomeComponent} from "./views/cashier/home/cashier-home.component";
+import {PersonalCenterComponent} from "./views/cashier/personal-center/personal-center.component";
+import {ProfileComponent} from "./views/cashier/personal-center/profile/profile.component";
+import {StoreManageComponent} from "./views/cashier/personal-center/store-manage/store-manage.component";
+import {MemberComponent} from "./views/cashier/personal-center/member/member.component";
+import {StaffManageComponent} from "./views/cashier/personal-center/staff-manage/staff-manage.component";
 
 export const authGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
@@ -40,6 +45,13 @@ const routes: Routes = [
       { path: "shopping", component: ShoppingComponent},
       { path: "inventory", component: InventoryComponent},
       { path: "statistics", component: StatisticsComponent },
+      { path: "center", component: PersonalCenterComponent,
+        children: [
+          { path: "profile", component: ProfileComponent },
+          { path: "store", component: StoreManageComponent },
+          { path: "member", component: MemberComponent },
+          { path: "staff", component: StaffManageComponent }
+        ]},
     ]
   },
   { path: "**", redirectTo: '/cashier' },

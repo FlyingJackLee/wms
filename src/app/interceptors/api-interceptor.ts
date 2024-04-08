@@ -27,10 +27,15 @@ export class APIInterceptor implements HttpInterceptor {
               this.auth.clear();
               this.router.navigate(['/user/login']);
               break;
-            case 400: this.toast.push(error.error['error'] ? error.error['error'] : error.error, "error"); break
+            case 400: this.toast.push(this.errorConvert(error), "error"); break
           }
           return throwError(() => new Error('Something bad happened; please try again later.'));
         })
       );
+  }
+
+  private errorConvert(error: HttpErrorResponse) {
+    let errorContent = error.error['error'] ? error.error['error'] : error.error;
+    return errorContent.message ? errorContent.message : errorContent;
   }
 }

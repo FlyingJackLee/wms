@@ -29,6 +29,16 @@
           <div matListItemTitle>数据</div>
           <div matListItemLine>历史账单</div>
         </mat-list-item>
+
+        <mat-list-item [routerLink]=" requestUsers == 0 ? '/cashier/center' : '/cashier/center/staff'">
+          @if(requestUsers == 0) {
+            <mat-icon matListItemIcon>badge</mat-icon>
+          } @else {
+            <mat-icon [matBadge]="requestUsers" matBadgeColor="primary" matTooltip="有新的加入申请" matListItemIcon>badge</mat-icon>
+          }
+          <div matListItemTitle>个人中心</div>
+          <div matListItemLine>设置</div>
+        </mat-list-item>
       </mat-nav-list>
     </mat-drawer>
 

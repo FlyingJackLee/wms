@@ -1,0 +1,33 @@
+$margin-to-left: 3rem;
+
+h2 {
+  margin-left: $margin-to-left;
+  margin-top: 2rem;
+}
+
+mat-divider {
+  margin-bottom: 1rem;
+}
+
+.profile-field {
+  display: flex;
+  margin-left: $margin-to-left;
+
+  .header {
+    display: block;
+    margin-right: 5rem;
+
+    h3 {
+      margin: 0;
+      letter-spacing: 1rem;
+      color: #434343;
+      font-size: 1rem;
+    }
+
+    p {
+      font-weight: lighter;
+      color: #929292;
+      font-size: 0.8rem;
+    }
+  }
+}

@@ -1,12 +1,25 @@
-import { Injectable } from '@angular/core';
-import {AuthService, TokenRes} from "./auth.service";
+import {Injectable} from '@angular/core';
+import {TokenRes} from "./auth.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {Observable, tap} from "rxjs";
+import {BehaviorSubject, finalize, Observable} from "rxjs";
+import {UserProfile} from "../models/profile";
+import {Authority, Role} from "../models/authority";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  public profile = new BehaviorSubject<UserProfile>({
+    "userId": -1,
+    "nickname": "未设置",
+    "email": "",
+    "phoneNumber": "",
+    "avatar": "default"
+  });
+
+  public role = new BehaviorSubject<Role>(Role.BLANK);
+  public permissions = new BehaviorSubject<Authority[]>([]);
+
   constructor(private http:HttpClient) {}
 
   /**
@@ -96,5 +109,54 @@ export class UserService {
   checkEmail(email: string): Observable<boolean> {
     let queryParas = new HttpParams().set("email", email);
     return this.http.get<boolean>('user/check/email', { params: queryParas});
+  }
+
+  /**
+   * 获取用户档案
+   */
+  getProfile():Observable<UserProfile> {
+    return this.profile.asObservable();
+  }
+  refreshProfile(){
+    this.http.get<UserProfile>('profile/').subscribe(
+      data => this.profile.next(data)
+    );
+  }
+
+  /**
+   * 获取当前用户角色
+   */
+  getRole(): Observable<Role>{
+    return this.role.asObservable();
+  }
+
+  /**
+   * 获取当前用户权限
+   */
+  getPermissions(): Observable<Authority[]>{
+    return this.permissions.asObservable();
+  }
+
+  refreshRole(){
+    this.http.get<Authority>('profile/role').subscribe(
+      data => this.role.next(data.authority as Role)
+    )
+  }
+
+  refreshPermission(){
+    this.http.get<Authority[]>('profile/role').subscribe(
+      data => this.permissions.next(data)
+    );
+  }
+
+  /**
+   * 更新nickname
+   * @param nickname
+   */
+  updateNickname(nickname: string){
+    let queryParas = new HttpParams().set("nickname", nickname);
+    return this.http.put('profile/nickname', null,{ params: queryParas}).pipe(
+      finalize(() => this.refreshProfile()) //完成后记得更新状态
+    );
   }
 }

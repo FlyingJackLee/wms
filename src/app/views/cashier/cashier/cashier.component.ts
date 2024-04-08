@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ToastComponent} from '../../components/toast/toast.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -10,16 +10,35 @@ import {ChineseCapitalPipe} from "../../../pipes/ChineseCapital";
 import {AuthService} from "../../../services/auth.service";
 import {DriveStep} from "driver.js";
 import {IntroService} from "../../../services/intro.service";
+import {GroupService} from "../../../services/group.service";
+import {Group} from "../../../models/group";
+import {Observable} from "rxjs";
+import {UserService} from "../../../services/user.service";
+import {MatBadgeModule} from "@angular/material/badge";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-cashier',
   standalone: true,
-  imports: [RouterModule, ToastComponent, MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule, ChineseCapitalPipe],
+  imports: [RouterModule, ToastComponent, MatSidenavModule, MatToolbarModule, MatListModule, MatIconModule, MatButtonModule, ChineseCapitalPipe, MatBadgeModule, MatTooltipModule],
   templateUrl: './cashier.component.html',
   styleUrl: './cashier.component.scss'
 })
-export class CashierComponent implements AfterViewInit{
-  constructor(private authService:AuthService, private router: Router, private introService:IntroService) {
+export class CashierComponent implements OnInit, AfterViewInit{
+  group: Observable<Group>;
+  requestUsers: number = 0;
+
+  constructor(private authService:AuthService, private router: Router, private introService:IntroService,
+              private groupService: GroupService, private userservice: UserService) {
+    this.group = groupService.getGroup();
+    this.groupService.getUsersUnderRequest().subscribe(data => this.requestUsers = data.length);
+  }
+
+  ngOnInit(): void {
+    // 每次刷新主界面时，重新获取group
+    this.groupService._refresh();
+    this.userservice.refreshRole();
+    this.userservice.refreshPermission();
   }
 
   ngAfterViewInit(): void {
