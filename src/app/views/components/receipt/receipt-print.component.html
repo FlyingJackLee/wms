@@ -3,7 +3,7 @@
   <body>
   <div class="a4">
     <div class="title"></div>
-    <div class="des">销售明细</div>
+    <div class="des">{{ (groupService.getGroup() | async)?.storeName }}销售明细</div>
     <div class="detail mt1 bottom">
       <div class="item info">销售日期: {{ today | date: 'yyyy-MM-dd HH:mm:ss'}} </div>
       <div class="item info">客户手机号：</div>
@@ -38,15 +38,14 @@
     </table>
     <div class="clear"></div>
     <div class="detail mt1 bottom">
-      <div class="item">销售人员：     </div>
+      <div class="item">销售人员：{{ (userService.getProfile() | async)?.nickname }}     </div>
       <div class="item" style="width:30%;">客户（签字）：</div>
     </div>
-    <div class="detail"></div>
     <div class="detail">
-      <div class="item">店铺地址：                       </div>
+      <div class="item">店铺地址：{{ (groupService.getGroup() | async)?.address }} </div>
     </div>
     <div class="detail">
-      <div class="item">备注：谢谢惠顾，欢迎下次光临！！！ </div>
+      <div class="item">谢谢惠顾，欢迎下次光临！！！ </div>
     </div>
   </div>
   </body>

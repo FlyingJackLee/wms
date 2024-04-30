@@ -23,12 +23,43 @@ import {ProfileComponent} from "./views/cashier/personal-center/profile/profile.
 import {StoreManageComponent} from "./views/cashier/personal-center/store-manage/store-manage.component";
 import {MemberComponent} from "./views/cashier/personal-center/member/member.component";
 import {StaffManageComponent} from "./views/cashier/personal-center/staff-manage/staff-manage.component";
+import {Permission, Role} from "./models/authority";
+import {UserService} from "./services/user.service";
+import {ToastService} from "./services/toast.service";
 
 export const authGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
   state: RouterStateSnapshot) => {
   return inject(AuthService).isAuthenticated() ? true : inject(Router).navigate(["/user/login"]);
 };
+
+export const permissionGuard = (permissionCheck: Permission):CanActivateFn => {
+  return (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) =>
+      {
+        let isPass = false;
+
+        // 先检查role
+        inject(UserService).getRole().subscribe(data => {
+          if (data == Role.OWNER) isPass = true
+        });
+
+        // 再检查permission
+        inject(UserService).getPermissions().subscribe(data => {
+          for (const item of data) {
+            if(item.authority == permissionCheck) {
+              isPass = true;
+              break;
+            }
+          }
+        });
+
+        if (!isPass) {
+          inject(ToastService).push("权限不足", "warning");
+        }
+
+        return isPass ? true : inject(Router).navigate(["/cashier/center/store"]);
+      };
+}
 
 const routes: Routes = [
   {
@@ -42,9 +73,9 @@ const routes: Routes = [
     path: "cashier", component: CashierComponent, canActivate: [authGuard],
     children: [
       { path: "home", component: CashierHomeComponent },
-      { path: "shopping", component: ShoppingComponent},
-      { path: "inventory", component: InventoryComponent},
-      { path: "statistics", component: StatisticsComponent },
+      { path: "shopping", component: ShoppingComponent, canActivate: [permissionGuard(Permission.SHOPPING)]},
+      { path: "inventory", component: InventoryComponent, canActivate: [permissionGuard(Permission.INVENTORY)]},
+      { path: "statistics", component: StatisticsComponent, canActivate: [permissionGuard(Permission.STATISTICS)] },
       { path: "center", component: PersonalCenterComponent,
         children: [
           { path: "profile", component: ProfileComponent },

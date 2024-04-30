@@ -144,7 +144,7 @@ export class UserService {
   }
 
   refreshPermission(){
-    this.http.get<Authority[]>('profile/role').subscribe(
+    this.http.get<Authority[]>('profile/permission').subscribe(
       data => this.permissions.next(data)
     );
   }

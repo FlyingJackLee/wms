@@ -3,7 +3,7 @@ export interface Authority {
 }
 
 export enum Role{
-  ROLE_DEFAULT,  ROLE_OWNER, ROLE_STAFF, ROLE_ADMIN, BLANK
+  DEFAULT = "ROLE_DEFAULT", OWNER = "ROLE_OWNER", STAFF = "ROLE_STAFF", BLANK = ""
 }
 
 export enum Permission{
