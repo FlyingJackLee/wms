@@ -21,6 +21,18 @@
 } @else {
   <div class="profile-field">
     <div class="header">
+      <h3>商铺编号</h3>
+      <p>申请加入时使用</p>
+    </div>
+    <div class="content">
+      <mat-form-field appearance="fill">
+        <input matInput placeholder="未设置" type="text" disabled="true" value="{{ (group$ | async)?.id}}">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="profile-field">
+    <div class="header">
       <h3>商铺名称</h3>
       <p>商铺显示全名</p>
     </div>

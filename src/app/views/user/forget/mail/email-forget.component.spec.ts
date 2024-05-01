@@ -1,8 +1,8 @@
 import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
-import {ForgetComponent} from './forget.component';
-import {UserService} from "../../../services/user.service";
-import {ToastService} from "../../../services/toast.service";
+import {EmailForgetComponent} from './email-forget.component';
+import {UserService} from "../../../../services/user.service";
+import {ToastService} from "../../../../services/toast.service";
 import {delay, of} from "rxjs";
 import {By} from "@angular/platform-browser";
 import {RouterTestingModule} from "@angular/router/testing";
@@ -10,8 +10,8 @@ import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 import {DebugElement} from "@angular/core";
 
 describe('ForgetComponent', () => {
-  let component: ForgetComponent;
-  let fixture: ComponentFixture<ForgetComponent>;
+  let component: EmailForgetComponent;
+  let fixture: ComponentFixture<EmailForgetComponent>;
   let userServiceMock: jasmine.SpyObj<UserService>;
   let toastMock: jasmine.SpyObj<ToastService>;
 
@@ -31,14 +31,14 @@ describe('ForgetComponent', () => {
     toastMock = jasmine.createSpyObj("ToastService", ["push"]);
 
      TestBed.configureTestingModule({
-      imports: [ForgetComponent, RouterTestingModule, NoopAnimationsModule],
+      imports: [EmailForgetComponent, RouterTestingModule, NoopAnimationsModule],
       providers: [
         { provide: UserService, useValue: userServiceMock},
         { provide: ToastService, useValue: toastMock},
       ]
     });
 
-    fixture = TestBed.createComponent(ForgetComponent);
+    fixture = TestBed.createComponent(EmailForgetComponent);
     component = fixture.componentInstance;
     spyOn(component.router, 'navigate');
 

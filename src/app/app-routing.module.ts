@@ -15,7 +15,7 @@ import {LoginComponent} from './views/user/login/login.component';
 import {UserComponent} from './views/user/user/user.component';
 import {CashierComponent} from './views/cashier/cashier/cashier.component';
 import {AuthService} from './services/auth.service';
-import {ForgetComponent} from "./views/user/forget/forget.component";
+import {EmailForgetComponent} from "./views/user/forget/mail/email-forget.component";
 import {SignupComponent} from "./views/user/signup/signup.component";
 import {CashierHomeComponent} from "./views/cashier/home/cashier-home.component";
 import {PersonalCenterComponent} from "./views/cashier/personal-center/personal-center.component";
@@ -26,6 +26,7 @@ import {StaffManageComponent} from "./views/cashier/personal-center/staff-manage
 import {Permission, Role} from "./models/authority";
 import {UserService} from "./services/user.service";
 import {ToastService} from "./services/toast.service";
+import {PhoneForgetComponent} from "./views/user/forget/phone/phone-forget.component";
 
 export const authGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
@@ -66,7 +67,8 @@ const routes: Routes = [
     path: "user", component: UserComponent, children: [
       { path: "login", component: LoginComponent },
       { path: "signup", component: SignupComponent },
-      { path: "forget", component: ForgetComponent }
+      { path: "forget/email", component: EmailForgetComponent },
+      { path: "forget/phone", component: PhoneForgetComponent },
     ]
   },
   {
