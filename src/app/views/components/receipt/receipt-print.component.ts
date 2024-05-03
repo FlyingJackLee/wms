@@ -7,6 +7,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogActions, MatDialogTitle} from "@angular/material/dialog";
 import {UserService} from "../../../services/user.service";
 import {GroupService} from "../../../services/group.service";
+import {Order} from "../../../models/order";
 
 @Component({
   selector: 'app-receipt',
@@ -25,7 +26,7 @@ import {GroupService} from "../../../services/group.service";
   styleUrl: './receipt-print.component.scss',
 })
 export class ReceiptPrintComponent{
-  @Input() data: Merchandise[] = [];
+  @Input() data: Order[] = [];
 
   today = new Date();
   constructor(private printService: NgxPrintService, public userService: UserService, public groupService: GroupService) {
@@ -33,7 +34,7 @@ export class ReceiptPrintComponent{
 
   total() {
     return this.data.reduce((pre, cur, idx, arr) => {
-      return pre + cur.price;
+      return pre + cur.sellingPrice;
     }, 0)
   }
 

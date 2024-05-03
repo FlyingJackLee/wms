@@ -19,15 +19,15 @@
         <td>单位</td>
         <td>金额</td>
       </tr>
-      @for (me of data; track me.id ;let idx = $index){
+      @for (order of data; track order.id ;let idx = $index){
         <tr>
           <td style="min-width:40px"><span>{{ idx + 1 }}</span></td>
-          <td><span>{{ me.imei }}</span></td>
-          <td><span>{{ me.category.name }}</span></td>
-          <td><span>{{ me.price | number : '1.2-2'}}</span></td>
+          <td><span>{{ order.merchandise.imei }}</span></td>
+          <td><span>{{ order.merchandise.category.name }}</span></td>
+          <td><span>{{ order.merchandise.price | number : '1.2-2'}}</span></td>
           <td style="min-width:40px"><span>1</span></td>
           <td style="min-width:40px"><span>台</span></td>
-          <td><span>{{ me.price | number : '1.2-2' }}</span></td>
+          <td><span>{{ order.sellingPrice | number : '1.2-2' }}</span></td>
         </tr>
       }
       <tr>
