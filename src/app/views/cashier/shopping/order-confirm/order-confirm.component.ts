@@ -80,6 +80,8 @@ export class OrderConfirmComponent implements OnInit{
          returned: false
        }));
 
+       this.receipt.data = orders;
+
        this.orderService.batchOrder(orders).pipe(
          finalize(() => this.loading = false)
        ).
