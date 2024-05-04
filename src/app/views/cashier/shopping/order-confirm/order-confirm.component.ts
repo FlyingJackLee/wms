@@ -5,8 +5,6 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-
-import {Merchandise} from 'src/app/models/merchandise';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -51,15 +49,16 @@ export class OrderConfirmComponent implements OnInit{
       remark: ['']
     });
 
-  constructor(@Inject(DIALOG_DATA) public data: { cart: Merchandise[]},
+  constructor(@Inject(DIALOG_DATA) public data: { cart: Order[]},
               private dialogRef: MatDialogRef<OrderConfirmComponent>,
               private formBuilder: FormBuilder,
               private orderService:OrderService,
               private toast: ToastService) {}
 
   ngOnInit(): void {
-    this.data.cart.forEach((item: Merchandise) => {
-      this.totalSellingPrice += item.price;
+    console.log(this.data.cart)
+    this.data.cart.forEach((item: Order) => {
+      this.totalSellingPrice += item.sellingPrice;
     });
   }
 
@@ -71,10 +70,10 @@ export class OrderConfirmComponent implements OnInit{
     if (this.orderConfirmForm.valid && this.data.cart.length > 0) {
        let orders: Order[] = [];
 
-       this.data.cart.forEach(me => orders.push({
+       this.data.cart.forEach(or => orders.push({
          id: -1,
-         merchandise: me,
-         sellingPrice: me.price,
+         merchandise: or.merchandise,
+         sellingPrice: or.sellingPrice,
          remark: this.orderConfirmForm.value.remark!,
          sellingTime: this.orderConfirmForm.value.date!,
          returned: false

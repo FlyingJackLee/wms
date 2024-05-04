@@ -1,3 +1,5 @@
+@import "../../../screen";
+
 @mixin children-block-center() {
     margin: auto; /* 居中显示 */
 }
@@ -16,16 +18,31 @@
 }
 
 #center-container {
-  margin: 5rem {
-    bottom: 0;
-    right: 0;
-  };
+  @include web{
+    margin: 5rem {
+      bottom: 0;
+      right: 0;
+    };
+  }
+
+  @include min-web{
+    margin-left: 1rem;
+    margin-top: 2rem;
+
+  }
+
   min-height: 80vh;
   display: flex;
   flex-wrap: wrap;
 
   .center-header {
-    @include fix-ratio-box(0.45);
+    @include web {
+      @include fix-ratio-box(0.45);
+    }
+
+    @include min-web {
+      @include fix-ratio-box(0.4);
+    }
 
     .center-avatar {
       width: 100%;
@@ -39,8 +56,18 @@
 
       .avatar {
         @include children-block-center;
-        height: 100px;
-        width: 100px;
+
+
+        @include web {
+          height: 100px;
+          width: 100px;
+        }
+
+        @include min-web {
+          height: 60px;
+          width: 60px;
+        }
+
         background-color: white;
         border-radius: 999px;
         margin: {top: 10%};
@@ -57,9 +84,10 @@
 
         p {
           display: inline;
-          font-size: 1.2rem;
           color: white;
           font-weight: 300;
+          font-size: 1.2rem;
+
           margin: 0 {
             top: 10px;
             left: 12px;
@@ -76,8 +104,17 @@
     mat-list {
       $list-color: #444444;
       mat-list-item {
-        height: 5rem;
-        padding-left: 70vh * 0.45 * 0.3;
+        @include web {
+          height: 5rem;
+          padding-left: 70vh * 0.45 * 0.3;
+
+        }
+
+        @include min-web {
+          height: 4rem;
+          padding-left: 70vh * 0.45 * 0.2;
+        }
+
         &:hover {
           background-color: rgba(0,0,0, 0.05);
           cursor: pointer;

@@ -1,3 +1,4 @@
+@import "src/app/screen";
 $margin-to-left: 3rem;
 
 h2 {
@@ -15,7 +16,14 @@ mat-divider {
 
   .header {
     display: block;
-    margin-right: 5rem;
+
+    @include web{
+      margin-right: 5rem;
+    }
+
+    @include min-web{
+      margin-right: 1rem;
+    }
 
     h3 {
       margin: 0;

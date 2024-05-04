@@ -4,7 +4,7 @@ import {Merchandise} from 'src/app/models/merchandise';
 import {OrderConfirmComponent} from './order-confirm/order-confirm.component';
 import {DriveStep} from "driver.js";
 import {IntroService} from "../../../services/intro.service";
-import {Category} from "../../../models/category";
+import {Order, OrderGenerator} from "../../../models/order";
 
 @Component({
   selector: 'app-shopping',
@@ -13,7 +13,7 @@ import {Category} from "../../../models/category";
 })
 export class ShoppingComponent implements AfterViewInit{
   selectedMerchandise: Merchandise | undefined;
-  cart: Merchandise[] = [];
+  cart: Order[] = [];
 
   constructor(public dialog:MatDialog, private introService: IntroService){}
 
@@ -21,25 +21,50 @@ export class ShoppingComponent implements AfterViewInit{
     this.selectedMerchandise = merchandises;
   }
 
+  /**
+   * 将商品加入购物车
+   *
+   * @param item
+   */
   addToCart(item:Merchandise) {
-    if(this.cart.indexOf(item) < 0) {
-      this.cart.push(item);
+      // 如果购物车已经存在，不允许添加
+      if(this.cart.find(order => order.merchandise.id == item.id) != undefined ){
+        return
+      }
+
+      this.cart.push(OrderGenerator(item, item.price));
       this.selectedMerchandise = undefined;
-    }
   }
 
-  removeFromCart(item:Merchandise) {
-    this.cart = this.cart.filter(me => me != item);
+  /**
+   * 将商品移出购物车
+   *
+   * @param item
+   */
+  removeFromCart(item:Order) {
+    this.cart = this.cart.filter(order => order != item);
   }
 
+  /**
+   * 清空购物车
+   */
   clearCart() {
     this.cart = [];
   }
 
-  changePrice(event: any, item: Merchandise) {
-    item.price = Number((event.target as HTMLInputElement).value);
+  /**
+   * 修改商品结算价格
+   *
+   * @param event
+   * @param item
+   */
+  changePrice(event: any, item: Order) {
+    item.sellingPrice = Number((event.target as HTMLInputElement).value);
   }
 
+  /**
+   * 提交订单
+   */
   orderConfirm() {
     const dialogRef = this.dialog.open<OrderConfirmComponent>(OrderConfirmComponent, {
       data: {cart: this.cart},
@@ -72,7 +97,7 @@ export class ShoppingComponent implements AfterViewInit{
     };
 
     this.selectedMerchandise = tourMe;
-    this.cart.push(tourMe);
+    this.cart.push(OrderGenerator(tourMe, tourMe.price));
     const steps:DriveStep[] = [
         { popover:{ title:"收银功能", description:"接下来介绍收银功能", side:"right", align:"start" } },
         { element:"app-search .search-field", popover:{ title:"查找商品(1/2)", description:"首先在这里输入型号或者扫码枪输入串号", side:"right", align:"start" } },

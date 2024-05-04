@@ -1,3 +1,4 @@
+@import "../../../../screen";
 @import "../center";
 
 
@@ -10,8 +11,16 @@ section {
     letter-spacing: 0.5rem;
   }
 
-  table {
+  .scroll-table {
     overflow: scroll;
+
+    @include web{
+      max-height: 200px;
+    }
+
+    @include min-web{
+      max-height: 100px;
+    }
   }
 
 }

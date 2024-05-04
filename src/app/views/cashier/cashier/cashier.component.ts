@@ -32,12 +32,6 @@ export class CashierComponent implements OnInit, AfterViewInit{
   constructor(private authService:AuthService, private router: Router, private introService:IntroService,
               private groupService: GroupService, private userservice: UserService) {
     this.group = groupService.getGroup();
-    // 如果是拥有者，首次需要获取加入请求人数
-    this.userservice.getRole().subscribe(data => {
-      if (data == Role.OWNER) {
-        this.groupService.getUsersUnderRequest().subscribe(data => this.requestUsers = data.length);
-      }
-    });
   }
 
   ngOnInit(): void {
@@ -45,6 +39,13 @@ export class CashierComponent implements OnInit, AfterViewInit{
     this.groupService._refresh();
     this.userservice.refreshRole();
     this.userservice.refreshPermission();
+
+    // 如果是拥有者，首次需要获取加入请求人数
+    this.userservice.getRole().subscribe(data => {
+      if (data == Role.OWNER) {
+        this.groupService.getUsersUnderRequest().subscribe(data => this.requestUsers = data.length);
+      }
+    });
   }
 
   ngAfterViewInit(): void {

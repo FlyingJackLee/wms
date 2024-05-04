@@ -8,3 +8,14 @@ export interface Order {
   sellingTime: Date;
   returned: boolean;
 }
+
+export const OrderGenerator = (merchandise: Merchandise, sellingPrice: number): Order => {
+  return {
+    id: -1,
+    merchandise: merchandise,
+    sellingPrice: sellingPrice,
+    remark: "",
+    sellingTime: new Date(),
+    returned: false,
+  }
+}
