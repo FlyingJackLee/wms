@@ -12,6 +12,7 @@ import {utils, writeFileXLSX} from 'xlsx';
 import {DriveStep} from "driver.js";
 import {IntroService} from "../../../services/intro.service";
 import {MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
+import {MerchandiseAccountComponent} from "./mechandise-account/merchandise-account.component";
 
 @Component({
   selector: 'app-inventory',
@@ -188,5 +189,17 @@ export class InventoryComponent implements OnInit, AfterViewInit {
                             "_" +  (new Date().getMonth() + 1) +
                              "_" +  new Date().getDay() + ".xlsx";
       writeFileXLSX(wb, fileName);
+  }
+
+  account(){
+    this.merchandiseService.account().subscribe(
+      data => {
+        this.dialog.open(MerchandiseAccountComponent, {
+          width: '350px',
+          height: '420px',
+          data: data
+        });
+      }
+    )
   }
 }
