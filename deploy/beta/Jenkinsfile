@@ -1,0 +1,76 @@
+// 注意需要安装node插件，并且设置node23的全局工具
+pipeline {
+    // 请确保agent上配置了
+    // 1. npm
+    // 2. angular cli
+    // 3. git
+    agent{
+        label 'building'
+    }
+
+    parameters {
+        string(name:'BRANCH', defaultValue: 'dev', description: 'which branch to build?')
+        string(name:'BACKEND_URL', defaultValue: 'http://beta.flyingjack.top:8081', description: 'Input the backend url')
+        string(name:'NGINX_HTML_PATH', defaultValue: '/home/root/nginx/html', description: '包含html的路径，会自动创建html-bak')
+    }
+
+    options {
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    environment {
+        TZ = 'Asia/Shanghai'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                git branch: "${params.BRANCH}", credentialsId: 'gitee', url: 'git@gitee.com:zuminli/wms_frontend.git'
+
+                echo '设置后端地址'
+                sh "sed -i 's,https://api.flyingjack.top,${params.BACKEND_URL},g' src/environments/environment.prod.ts"
+                sh 'cat src/environments/environment.prod.ts'
+                echo '后端地址设置完成'
+
+                // 注意需要安装node插件，并且设置node23的全局工具
+                nodejs('node23') {
+                  echo '开始安装依赖'
+                  sh "npm install"
+                  echo '依赖完成'
+                  echo '开始安装依赖'
+                  echo '开始构建'
+                  sh "npm run ng build --configuration=production"
+                }
+
+               stash includes: 'dist/wms/**/*', name: 'wmsBeta'
+            }
+        }
+
+
+        stage('Deploy') {
+            // 请确保agent上nginx
+            // web路径 /home/root/nginx/html
+            agent{
+                label 'beta'
+            }
+
+            steps {
+                unstash 'wmsBeta'
+
+                dir("${params.NGINX_HTML_PATH}"){
+                    sh 'mkdir -p ../html-bak'
+                    sh 'cp -a ./ ../html-bak/backup-$(date +%Y-%m-%d_%H-%M-%S)'
+                    sh 'rm -rf ./*'
+                }
+
+                sh "cp -r ./dist/wms/* ${params.NGINX_HTML_PATH}/"
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenUnstable: false
+        }
+    }
+}

@@ -1,0 +1,12 @@
+services:
+  web:
+    image: nginx:alpine3.20
+    container_name: nginx
+    volumes:
+      - /home/root/nginx/html:/usr/share/nginx/html
+      - /home/root/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - /home/root/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - /home/root/nginx/logs:/var/log/nginx
+    ports:
+      - "8080:80"
+      - "443:443"
