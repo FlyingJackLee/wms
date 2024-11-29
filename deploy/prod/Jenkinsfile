@@ -1,0 +1,66 @@
+// 注意需要安装node插件，并且设置node23的全局工具
+pipeline {
+    agent{
+        label 'prod'
+    }
+
+    parameters {
+        string(name:'NGINX_HTML_PATH', defaultValue: '/www/wwwroot/wms.flyingjack.top/', description: '包含html的路径，会自动创建html-bak')
+    }
+    options {
+        timeout(time: 15, unit: 'MINUTES')
+    }
+
+    environment {
+        TZ = 'Asia/Shanghai'
+    }
+
+    stages {
+        stage('Build') {
+            agent{
+                label 'building'
+            }
+
+            steps {
+                git branch: "dev-jenkins", credentialsId: 'gitee', url: 'git@gitee.com:zuminli/wms_frontend.git'
+
+                // 注意需要安装node插件，并且设置node23的全局工具
+                // 请确保agent上配置了
+                // 1. npm
+                // 2. angular cli
+                // 3. git
+                nodejs('node23') {
+                  echo '开始安装依赖'
+                  sh "npm install"
+                  echo '依赖完成'
+                  echo '开始安装依赖'
+                  echo '开始构建'
+                  sh "npm run ng build --configuration=production"
+                }
+
+               stash includes: 'dist/wms/**/*', name: 'wmsPackage'
+            }
+        }
+
+
+        stage('Deploy') {
+            steps {
+                unstash 'wmsPackage'
+
+                dir("${params.NGINX_HTML_PATH}"){
+                    sh 'mkdir -p /home/www/html-bak'
+                    sh 'cp -a ./ /home/www/html-bak/backup-$(date +%Y-%m-%d_%H-%M-%S)'
+                    sh 'rm -rf ./*'
+                }
+
+                sh "cp -r ./dist/wms/* ${params.NGINX_HTML_PATH}/"
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs cleanWhenFailure: false, cleanWhenNotBuilt: false, cleanWhenUnstable: false
+        }
+    }
+}
