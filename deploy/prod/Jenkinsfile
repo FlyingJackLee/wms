@@ -22,7 +22,7 @@ pipeline {
             }
 
             steps {
-                git branch: "dev-jenkins", credentialsId: 'gitee', url: 'git@gitee.com:zuminli/wms_frontend.git'
+                git branch: "main", credentialsId: 'gitee', url: 'git@gitee.com:zuminli/wms_frontend.git'
 
                 // 注意需要安装node插件，并且设置node23的全局工具
                 // 请确保agent上配置了
