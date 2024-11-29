@@ -5,7 +5,7 @@ import {ToastService} from "../../../../services/toast.service";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {MerchandiseService} from "../../../../services/merchandise.service";
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {CategoryManageComponent} from "../../../components/category-manage/category-manage.component";
+import {CategoryManageComponent} from "../category-manage/category-manage.component";
 import {Category} from "../../../../models/category";
 import {CategoryService} from "../../../../services/category.service";
 import {MatDatepickerModule} from "@angular/material/datepicker";

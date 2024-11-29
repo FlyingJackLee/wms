@@ -1,0 +1,60 @@
+<div class="login-container">
+  <div class="form-container">
+    <h3>找回密码</h3>
+    <form [formGroup]="forgetForm" (ngSubmit)="submit()">
+      <mat-form-field >
+        <mat-label>手机号</mat-label>
+        <input matInput formControlName="phone">
+        @if (forgetForm.controls.phone.invalid && (forgetForm.touched || forgetForm.dirty)) {
+          <mat-error>手机号不正确</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>手机验证码</mat-label>
+        <input matInput formControlName="code">
+        <button [disabled]="forgetForm.controls.phone.invalid || codeSendCount > 0 " mat-raised-button color="primary" matSuffix #codeBut (click)="sendCode()">
+          {{ codeSendCount == 0 ? "发送验证码" : codeSendCount }}
+        </button>
+        @if (forgetForm.controls.code.invalid && (forgetForm.touched || forgetForm.dirty) ) {
+          <mat-error>验证码不能为空</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>密码</mat-label>
+        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if (forgetForm.controls.password.invalid && (forgetForm.touched || forgetForm.dirty) ) {
+          <mat-error>8-16位非空字符</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>确认密码</mat-label>
+        <input matInput formControlName="confirmPassword" [errorStateMatcher]="passwordConfirmMatcher" [type]="hidePassword ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if (forgetForm.invalid && (forgetForm.touched || forgetForm.dirty) ) {
+          <mat-error>两次密码必须一致</mat-error>
+        }
+      </mat-form-field>
+      <span><button mat-raised-button id="submit-button" [disabled]="forgetForm.invalid || !showSubmitButton" type="submit" color="primary">重置密码</button></span>
+    </form>
+    <mat-divider></mat-divider>
+    @if(!showSubmitButton) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+    <a mat-button color="primary" [routerLink]="['/user/login']" class="forget">返回登陆</a>
+  </div>
+
+  <div class="tip-container">
+    <h3>没有账号？</h3>
+    <p>即刻进行注册</p>
+    <span><a id="signup-switch" [routerLink]="['/user/signup']" mat-stroked-button>注册</a></span>
+  </div>
+
+</div>

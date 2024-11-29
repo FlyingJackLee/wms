@@ -1,56 +1,17 @@
-import {Component} from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  FormsModule,
-  NgForm,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {ErrorStateMatcher} from "@angular/material/core";
 import {Router, RouterModule} from "@angular/router";
-import {finalize, interval, takeWhile} from "rxjs";
-import {UserService} from "../../../services/user.service";
-import {ToastService} from "../../../services/toast.service";
-import {EmailUniqueValidator, UsernameUniqueValidator} from "./signup.validators";
+import {PrincipalType} from "../../../services/user.service";
+import {EmailUniqueValidator, PhoneUniqueValidator} from "./signup.validators";
 import {PreventEnterDirective} from "../../../directives/prevent-enter.directive";
-
-interface BaseSignupForm {
-  password: FormControl<string>;
-  confirmPassword:  FormControl<string>;
-}
-
-interface UsernameSignupForm extends BaseSignupForm{
-  username: FormControl<string>;
-}
-
-interface EmailSignupForm extends BaseSignupForm {
-  email: FormControl<string>;
-  code: FormControl<string>;
-}
-
-const confirmPasswordValidator: ValidatorFn = (
-  control: AbstractControl
-): ValidationErrors | null => {
-  return control.value.password === control.value.confirmPassword
-    ? null
-    : { passwordNotMatched: true };
-};
-export class PasswordConfirmMatcher implements ErrorStateMatcher {
-  isErrorState(control: AbstractControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return form && form.errors?.['passwordNotMatched'];
-  }
-}
+import {BaseSignupComponent} from "./base-signup/base-signup.component";
+import {NgComponentOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-signup',
@@ -65,95 +26,50 @@ export class PasswordConfirmMatcher implements ErrorStateMatcher {
     MatInputModule,
     MatProgressBarModule,
     ReactiveFormsModule,
-    PreventEnterDirective
+    PreventEnterDirective,
+    BaseSignupComponent,
+    NgComponentOutlet
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SignupComponent {
-  usernameSignupForm = new FormGroup<UsernameSignupForm>({
-    username: new FormControl("", {
-      nonNullable: true,
-      validators:[Validators.required, Validators.pattern('^[a-z0-9]{5,15}$')],
-      asyncValidators: [ this.usernameUniqueValidator.validate.bind(this.usernameUniqueValidator) ],
-      updateOn: "blur"
-    }),
-    password: new FormControl('', { nonNullable:true , validators: [Validators.required, Validators.pattern('^\\S{8,16}$')]}),
-    confirmPassword: new FormControl('', { nonNullable: true , validators: [Validators.required]})
-  }, {validators: confirmPasswordValidator});
+export class SignupComponent{
+  phoneFieldControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.pattern("^1[3-9]\\d{9}$")],
+    asyncValidators: [ this.phoneUniqueValidator.validate.bind(this.phoneUniqueValidator) ],
+    updateOn: "blur"
+  });
 
-  emailSignupForm = new FormGroup<EmailSignupForm>({
-    email: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.email],
-      asyncValidators: [ this.emailUniqueValidator.validate.bind(this.emailUniqueValidator) ],
-      updateOn: "blur"
-    }),
-    code: new FormControl('',  { nonNullable: true, validators: [Validators.required] }),
-    password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern('^\\S{8,16}$')]}),
-    confirmPassword: new FormControl('', { nonNullable: true , validators: [Validators.required]})
-  }, {validators: confirmPasswordValidator});
+  emailFieldControl = new FormControl('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.email],
+    asyncValidators: [ this.emailUniqueValidator.validate.bind(this.emailUniqueValidator) ],
+    updateOn: "blur"
+  });
 
-  activateForm: FormGroup = this.usernameSignupForm;
-  hidePassword: boolean = true;
-  showSubmitButton: boolean = true;
+  components = [
+    {
+      component: BaseSignupComponent,
+      inputs: { principalTitle: "手机号", principal: this.phoneFieldControl, principalType: PrincipalType.PHONE  }
+    },
+    {
+      component: BaseSignupComponent,
+      inputs: { principalTitle: "邮箱", principal: this.emailFieldControl, principalType: PrincipalType.EMAIL  }
+    },
+  ];
+  currentIndex = 0;
 
-  codeSendCount: number = 0;
-
-  passwordConfirmMatcher = new PasswordConfirmMatcher();
-
-  constructor(private userService:UserService,
-              private toast: ToastService,
-              public router: Router,
-              private usernameUniqueValidator:UsernameUniqueValidator,
+  constructor(public router: Router,
+              private phoneUniqueValidator:PhoneUniqueValidator,
               private emailUniqueValidator:EmailUniqueValidator
   ) {
   }
 
+  /**
+   * 切换注册方式
+   */
   switchPrincipalField() {
-    this.activateForm = this.activateForm === this.usernameSignupForm ? this.emailSignupForm : this.usernameSignupForm;
-  }
-
-  sendCode() {
-    this.codeSendCount = 60;
-
-    if (this.emailSignupForm.value.email) {
-      this.userService.sendCodeToEmail(this.emailSignupForm.value.email).subscribe(
-        data => this.toast.push("发送成功", "information")
-      );
-    }
-
-    // 限制60秒只能按一次
-    interval(1000).pipe(
-      takeWhile(value => value < 60)
-    ).subscribe({
-      next: data => {
-        this.codeSendCount--;
-      },
-      complete: () => this.codeSendCount = 0
-    });
-  }
-
-  submit() {
-    this.showSubmitButton = false //完成前屏蔽button
-    if (this.activateForm === this.usernameSignupForm && this.usernameSignupForm.valid) {
-      this.userService.signupByUsername(this.usernameSignupForm.value.username!, this.usernameSignupForm.value.password!)
-        .pipe(finalize(() => this.showSubmitButton = true))
-        .subscribe( {
-          next: data => { if( data === "success" ) this.toast.push("注册成功", "success"); },
-          complete: () => this.router.navigate(['/user/login'])
-        });
-    }
-    else if(this.activateForm === this.emailSignupForm && this.emailSignupForm.valid) {
-      this.userService.signupByEmail(this.emailSignupForm.value.email!, this.emailSignupForm.value.password!, this.emailSignupForm.value.code! )
-        .pipe(finalize(() => this.showSubmitButton = true))
-        .subscribe( {
-          next: data => { if( data === "success" ) this.toast.push("注册成功", "success"); },
-          complete: () => this.router.navigate(['/user/login'])
-        });
-
-    } else {
-      this.showSubmitButton = true
-    }
+    this.currentIndex == 0 ? this.currentIndex = 1 : this.currentIndex = 0;
   }
 }

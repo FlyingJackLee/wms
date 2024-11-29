@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="guide($event)">
   <mat-tab label="库存管理">
     <section>
       <app-category-select (select)="select($event)"></app-category-select>
@@ -88,7 +88,8 @@
       </table>
 
       <mat-paginator [length]="count" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
-      <button mat-raised-button type="button" (click)="saveToExcel()"> 导出为表格</button>
+      <button id="excelBtn" mat-raised-button type="button" (click)="saveToExcel()">导出为表格</button>
+      <button mat-raised-button type="button" (click)="account()">盘库统计</button>
     </section>
   </mat-tab>
   <mat-tab label="新增商品"> <app-create-merchandise></app-create-merchandise> </mat-tab>

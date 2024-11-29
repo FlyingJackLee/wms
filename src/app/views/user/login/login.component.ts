@@ -14,7 +14,7 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {PreventEnterDirective} from "../../../directives/prevent-enter.directive";
 
 interface LoginForm {
-  username?: FormControl<string>;
+  phone?: FormControl<string>;
   email?: FormControl<string>;
   password: FormControl<string>;
 }
@@ -28,17 +28,17 @@ interface LoginForm {
 })
 export class LoginComponent{
   hidePassword = true;
-  activatePrincipal: 'username' | 'email' = 'username';
+  activatePrincipal: 'phone' | 'email' = 'phone';
 
   showSubmitButton = true;
 
-  principals: { username: FormControl<string>, email:FormControl<string>} = {
-    'username': new FormControl("", {nonNullable: true, validators:[Validators.required, Validators.pattern('^[a-z0-9]{5,15}$')]}),
+  principals: { phone: FormControl<string>, email:FormControl<string>} = {
+    'phone': new FormControl("", {nonNullable: true, validators:[Validators.required, Validators.pattern("^1[3-9]\\d{9}$")]}),
     'email': new FormControl("", {nonNullable: true, validators:[Validators.required, Validators.email]})
   }
 
   loginForm = new FormGroup<LoginForm>({
-    username: this.principals['username'],
+    phone: this.principals['phone'],
     password: new FormControl('', { nonNullable:true , validators: [Validators.required, Validators.pattern('^\\S{8,16}$')]}),
   });
 
@@ -51,7 +51,7 @@ export class LoginComponent{
     this.loginForm.removeControl(this.activatePrincipal);
 
     // 切换
-    this.activatePrincipal = this.activatePrincipal == 'username' ? 'email' : 'username';
+    this.activatePrincipal = this.activatePrincipal == 'phone' ? 'email' : 'phone';
     this.loginForm.addControl(this.activatePrincipal, this.principals[this.activatePrincipal]);
   }
 
@@ -59,9 +59,9 @@ export class LoginComponent{
     // 请求前禁用button 防止重复提交
     this.showSubmitButton = false;
 
-    // 用户名登陆
-    if (this.activatePrincipal == 'username') {
-      this.userService.loginByUsername(this.loginForm.value.username!, this.loginForm.value.password!)
+    // 手机号登陆
+    if (this.activatePrincipal == 'phone') {
+      this.userService.loginByPhone(this.loginForm.value.phone!, this.loginForm.value.password!)
         .pipe(
           finalize(() => this.showSubmitButton = true ) // 请求完成后重新显示button
         )

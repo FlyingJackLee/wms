@@ -1,0 +1,48 @@
+<h3>{{ principalTitle }}注册</h3>
+<form [formGroup]="signupForm" (ngSubmit)="submit()">
+  <mat-form-field >
+    <mat-label>{{ principalTitle }}</mat-label>
+    <input matInput formControlName="principal">
+    @if (principal.hasError("uniqueViolate") && (principal.touched || principal.dirty)) {
+      <mat-error>{{ principalTitle }}已经存在</mat-error>
+    }
+    @else if ((principal.hasError("required") ||  principal.hasError("email")) && (principal.touched || principal.dirty)) {
+      <mat-error>{{ principalTitle }}格式不正确</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>验证码</mat-label>
+    <input matInput formControlName="code">
+    <button preventEnter [disabled]="signupForm.controls.principal.invalid || codeSendCount > 0 " mat-raised-button color="primary" matSuffix #codeBut (click)="sendCode()">
+      {{ codeSendCount == 0 ? "发送验证码" : codeSendCount }}
+    </button>
+    @if (signupForm.controls.code.invalid && (signupForm.touched || signupForm.dirty) ) {
+      <mat-error>验证码不能为空</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>密码</mat-label>
+    <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+    <button preventEnter tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+      <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    @if (signupForm.controls['password'].invalid && (signupForm.touched || signupForm.dirty) ) {
+      <mat-error>8-16位非空字符</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>确认密码</mat-label>
+    <input matInput formControlName="confirmPassword" [errorStateMatcher]="passwordConfirmMatcher" [type]="hidePassword ? 'password' : 'text'">
+    <button preventEnter tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+      <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </button>
+    @if (signupForm.invalid && (signupForm.touched || signupForm.dirty) ) {
+      <mat-error>两次密码必须一致</mat-error>
+    }
+  </mat-form-field>
+
+  <span><button mat-raised-button id="submit-button" [disabled]="signupForm.invalid || !showSubmitButton" type="submit" color="primary">注册</button></span>
+</form>

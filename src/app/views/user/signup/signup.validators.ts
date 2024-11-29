@@ -23,7 +23,6 @@ export class UsernameUniqueValidator implements AsyncValidator {
   }
 }
 
-
 @Injectable({providedIn: "root"})
 export class EmailUniqueValidator implements AsyncValidator {
   // 通过lock防止短时间多次请求
@@ -33,7 +32,23 @@ export class EmailUniqueValidator implements AsyncValidator {
 
   validate(control: AbstractControl): Observable<ValidationErrors | null> {
     return this.userService.checkEmail(control.value).pipe(
-      map(isExist => isExist ? { uniqueEmailViolate:true } : null),
+      map(isExist => isExist ? { uniqueViolate:true } : null),
+      catchError(() => of(null)),
+      finalize(() => this.lock = false)
+    );
+  }
+}
+
+@Injectable({providedIn: "root"})
+export class PhoneUniqueValidator implements AsyncValidator {
+  // 通过lock防止短时间多次请求
+  lock: boolean = false;
+  constructor(private userService: UserService) {
+  }
+
+  validate(control: AbstractControl): Observable<ValidationErrors | null> {
+    return this.userService.checkPhone(control.value).pipe(
+      map(isExist => isExist ? { uniqueViolate:true } : null),
       catchError(() => of(null)),
       finalize(() => this.lock = false)
     );

@@ -112,10 +112,11 @@ export class StatisticsComponent {
 
   print(order: Order){
     if (order && order.merchandise){
+      console.log(order)
       this.dialog.open(DialogPrintConfirmComponent,{
         width: '160px',
         height: '120px',
-        data: order.merchandise
+        data: order
       })
     }
   }
@@ -172,7 +173,7 @@ export class StatisticsComponent {
         <button mat-button mat-dialog-close >取消</button>
         <button mat-raised-button color="primary" mat-dialog-close (click)="confirm()">确认</button>
     </mat-dialog-actions>
-    <app-receipt #receipt [data]="[data]"></app-receipt>
+    <app-receipt [data]="[data]" #receipt></app-receipt>
   `,
   selector: 'diaglo-print-confirm',
   imports: [
@@ -186,7 +187,7 @@ export class StatisticsComponent {
 })
 class DialogPrintConfirmComponent{
   @ViewChild('receipt') receipt!:ReceiptPrintComponent;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Merchandise,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Order,
               private dialogRef: MatDialogRef<DialogPrintConfirmComponent>) {
   }
 

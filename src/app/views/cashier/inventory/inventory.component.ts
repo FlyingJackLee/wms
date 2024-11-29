@@ -9,6 +9,10 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogDeleteMerchandiseComponent} from "./dialog-delete-merchandise/dialog-delete-merchandise.component";
 import {DialogEditComponent} from "./dialog-edit-component/dialog-edit.component";
 import {utils, writeFileXLSX} from 'xlsx';
+import {DriveStep} from "driver.js";
+import {IntroService} from "../../../services/intro.service";
+import {MatTabChangeEvent, MatTabGroup} from "@angular/material/tabs";
+import {MerchandiseAccountComponent} from "./mechandise-account/merchandise-account.component";
 
 @Component({
   selector: 'app-inventory',
@@ -25,7 +29,7 @@ export class InventoryComponent implements OnInit, AfterViewInit {
 
   hideCost: boolean = true;
 
-  constructor(private merchandiseService: MerchandiseService, public dialog: MatDialog) {
+  constructor(private merchandiseService: MerchandiseService, public dialog: MatDialog, private introService:IntroService) {
   }
 
   ngOnInit () {
@@ -37,6 +41,8 @@ export class InventoryComponent implements OnInit, AfterViewInit {
     );
   }
 
+  @ViewChild("tabGroup") tabGroup!:MatTabGroup;
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
@@ -44,6 +50,42 @@ export class InventoryComponent implements OnInit, AfterViewInit {
       return( data.category.name.toLowerCase().includes(filter.trim())
         || data.imei.toLowerCase().includes(filter.trim()))
     };
+
+    // 生成初始引导
+    if (!this.introService.checkGuided("inventory")){
+      const steps:DriveStep[] = [
+        { popover:{ title:"欢迎使用库存", description:"现在开始介绍库存管理功能， 包含三个板块", side:"right", align:"start" } },
+        { element:"div[role=tab]:nth-child(1)", popover:{ title:"首先是库存管理", description:"查看当前库存，对库存商品进行操作", side:"right", align:"start" } },
+        { element:"table", popover:{ title:"商品展示", description:"默认会显示全部商品", side:"right", align:"start" } },
+        { element:"app-category-select", popover:{ title:"型号查询", description:"可以选择特定型号查询", side:"right", align:"start" } },
+        { element:".filter", popover:{ title:"筛选", description:"也这里可以搜索商品", side:"right", align:"start" } },
+        { element:"#excelBtn", popover:{ title:"导出表格", description:"点击这里可以导出表格", side:"right", align:"start" } },
+        { element:"div[role=tab]:nth-child(2)", popover:{ title:"新增商品", description:"点击这里可以继续教程", side:"right", align:"start" } },
+      ];
+
+      this.introService.create(steps);
+      this.introService.setGuided("inventory")
+    }
+  }
+
+  // 切换tab是显示引导
+  guide($event: MatTabChangeEvent) {
+    if ($event.index == 1 && !this.introService.checkGuided("create")){
+      const steps:DriveStep[] = [
+        { popover:{ title:"新增商品", description:"现在开始教学新增商品", side:"right", align:"start" } },
+        { element:"app-category-manage", popover:{ title:"选择型号", description:"首先需要依次选择商品的品牌和型号", side:"right", align:"start"} },
+        { element:"app-category-manage button", popover:{ title:"添加品牌", description:"右方的按钮可以快速添加, 需要先添加品牌，选择后才可以添加型号", side:"right", align:"start" } },
+        { element:"app-create-merchandise input[formControlName=cost]", popover:{ title:"成本价", description:"设置成本价", side:"right", align:"start" } },
+        { element:"app-create-merchandise input[formControlName=price]", popover:{ title:"售价", description:"设置售价", side:"right", align:"start" } },
+        { element:"#imeiInput", popover:{ title:"串号输入（1/2）", description:"手动或者扫码枪输入串号", side:"right", align:"start" } },
+        { element:"#imeiBtn", popover:{ title:"串号输入（2/2）", description:"!!!必须点击这里的添加才会生效（可以多次添加)", side:"right", align:"start", } },
+        { element:"app-create-merchandise mat-hint", popover:{ title:"串号输入", description:"添加好的串号将这里逐一显示", side:"right", align:"start", } },
+        { element:"app-create-merchandise button[type=submit]", popover:{ title:"提交", description:"最后点击提交即可添加", side:"right", align:"start", } },
+      ];
+
+      this.introService.create(steps);
+      this.introService.setGuided("create")
+    }
   }
 
   applyFilter(event: Event) {
@@ -147,5 +189,17 @@ export class InventoryComponent implements OnInit, AfterViewInit {
                             "_" +  (new Date().getMonth() + 1) +
                              "_" +  new Date().getDay() + ".xlsx";
       writeFileXLSX(wb, fileName);
+  }
+
+  account(){
+    this.merchandiseService.account().subscribe(
+      data => {
+        this.dialog.open(MerchandiseAccountComponent, {
+          width: '350px',
+          height: '420px',
+          data: data
+        });
+      }
+    )
   }
 }

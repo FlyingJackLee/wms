@@ -17,8 +17,8 @@
 
   <mat-form-field class="two-margin">
     <mat-label>串号</mat-label>
-    <input matInput type="text" #imei>
-    <button mat-icon-button preventEnter color="accent" matSuffix (click)="addImei(imei)" ><mat-icon>add</mat-icon></button>
+    <input id="imeiInput"  matInput type="text" #imei>
+    <button id="imeiBtn" mat-icon-button preventEnter color="accent" matSuffix (click)="addImei(imei)" ><mat-icon>add</mat-icon></button>
     <mat-hint>
      点击右侧添加按钮添加！ 已添加串号如下：
     </mat-hint>

@@ -3,8 +3,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
-import {Category} from "../../../models/category";
-import {CategoryService} from "../../../services/category.service";
+import {Category} from "../../../../models/category";
+import {CategoryService} from "../../../../services/category.service";
 import {AsyncPipe} from "@angular/common";
 import {Observable, of} from "rxjs";
 import {MatButtonModule} from "@angular/material/button";
@@ -13,7 +13,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DialogAddBrandComponent} from "./dialog-add-brand/dialog-add-brand.component";
 import {MatCardModule} from "@angular/material/card";
 import {DialogAddModelComponent} from "./dialog-add-model/dialog-add-model.component";
-import {ToastService} from "../../../services/toast.service";
+import {ToastService} from "../../../../services/toast.service";
 
 @Component({
   selector: 'app-category-manage',

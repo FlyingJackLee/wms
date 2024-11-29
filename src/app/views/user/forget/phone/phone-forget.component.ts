@@ -19,12 +19,12 @@ import {MatInputModule} from "@angular/material/input";
 import {Router, RouterModule} from "@angular/router";
 import {ErrorStateMatcher} from "@angular/material/core";
 import {finalize, interval, takeWhile} from "rxjs";
-import {UserService} from "../../../services/user.service";
-import {ToastService} from "../../../services/toast.service";
+import {UserService} from "../../../../services/user.service";
+import {ToastService} from "../../../../services/toast.service";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 
-interface ForgetForm {
-  email: FormControl<string>;
+interface PhoneForgetForm {
+  phone: FormControl<string>;
   code: FormControl<string>;
   password: FormControl<string>;
   confirmPassword:  FormControl<string>;
@@ -57,10 +57,10 @@ export class PasswordConfirmMatcher implements ErrorStateMatcher {
     ReactiveFormsModule,
     MatProgressBarModule
   ],
-  templateUrl: './forget.component.html',
-  styleUrl: './forget.component.scss'
+  templateUrl: './phone-forget.component.html',
+  styleUrl: './phone-forget.component.scss'
 })
-export class ForgetComponent {
+export class PhoneForgetComponent {
   hidePassword: boolean = true;
 
   codeSendCount: number = 0;
@@ -70,8 +70,8 @@ export class ForgetComponent {
   // 以告诉field具体的error state判断方式
   passwordConfirmMatcher = new PasswordConfirmMatcher();
 
-  forgetForm = new FormGroup<ForgetForm>({
-    email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email ]}),
+  forgetForm = new FormGroup<PhoneForgetForm>({
+    phone: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern("^1[3-9]\\d{9}$")]}),
     code: new FormControl('',  { nonNullable: true, validators: [Validators.required] }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern('^\\S{8,16}$')]}),
     confirmPassword: new FormControl('', { nonNullable: true , validators: [Validators.required]})
@@ -85,8 +85,8 @@ export class ForgetComponent {
   sendCode() {
     this.codeSendCount = 60;
 
-    if (this.forgetForm.value.email) {
-      this.userService.sendCodeToEmail(this.forgetForm.value.email).subscribe(
+    if (this.forgetForm.value.phone) {
+      this.userService.sendCodeToPhone(this.forgetForm.value.phone).subscribe(
         data => this.toast.push("发送成功", "information")
       );
     }
@@ -105,7 +105,7 @@ export class ForgetComponent {
   submit(){
     this.showSubmitButton = false //完成前屏蔽button
     if (this.forgetForm.valid) {
-      this.userService.resetByEmail(this.forgetForm.value.email!, this.forgetForm.value.password!, this.forgetForm.value.code!)
+      this.userService.resetByPhone(this.forgetForm.value.phone!, this.forgetForm.value.password!, this.forgetForm.value.code!)
         .pipe(finalize(() => this.showSubmitButton = true))
         .subscribe( {
           next: data => { if( data === "success" ) this.toast.push("重置成功", "success"); },

@@ -9,3 +9,10 @@ export interface Merchandise {
     sold: boolean,
     createTime: Date
 }
+
+export interface MeCount {
+  count: number,
+  sumCost: number,
+  sumPrice: number,
+  category: Category
+}

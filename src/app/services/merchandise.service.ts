@@ -1,6 +1,6 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Merchandise} from '../models/merchandise';
+import {MeCount, Merchandise} from '../models/merchandise';
 import {Observable} from 'rxjs';
 import {ApiRes} from "../models/ApiRes";
 
@@ -55,5 +55,12 @@ export class MerchandiseService {
   searchMerchandise(text: string): Observable<Merchandise[]> {
     let queryParams = new HttpParams().set("text", text);
     return this.http.get<Merchandise[]>("merchandise/search", {params: queryParams});
+  }
+
+  /**
+   * 盘库统计
+   */
+  account(): Observable<MeCount[]> {
+    return this.http.get<MeCount[]>("merchandise/account");
   }
 }

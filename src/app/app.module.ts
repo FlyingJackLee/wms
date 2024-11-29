@@ -37,7 +37,7 @@ import {CashierComponent} from "./views/cashier/cashier/cashier.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {Router} from "@angular/router";
 import {MatTabsModule} from "@angular/material/tabs";
-import {CategoryManageComponent} from "./views/components/category-manage/category-manage.component";
+import {CategoryManageComponent} from "./views/cashier/inventory/category-manage/category-manage.component";
 import {CreateMerchandiseComponent} from "./views/cashier/inventory/create-merchandise/create-merchandise.component";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatRadioModule} from "@angular/material/radio";

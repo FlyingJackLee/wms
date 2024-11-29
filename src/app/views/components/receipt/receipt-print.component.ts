@@ -1,10 +1,13 @@
 import {Component, Input} from '@angular/core';
-import {DatePipe, DecimalPipe} from "@angular/common";
+import {AsyncPipe, DatePipe, DecimalPipe} from "@angular/common";
 import {NgxPrintDirective, NgxPrintService, PrintOptions} from "ngx-print";
 import {Merchandise} from "../../../models/merchandise";
 import {ChineseCapitalPipe} from "../../../pipes/ChineseCapital";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogActions, MatDialogTitle} from "@angular/material/dialog";
+import {UserService} from "../../../services/user.service";
+import {GroupService} from "../../../services/group.service";
+import {Order} from "../../../models/order";
 
 @Component({
   selector: 'app-receipt',
@@ -16,21 +19,22 @@ import {MatDialogActions, MatDialogTitle} from "@angular/material/dialog";
     NgxPrintDirective,
     MatButtonModule,
     MatDialogTitle,
-    MatDialogActions
+    MatDialogActions,
+    AsyncPipe
   ],
   templateUrl: './receipt-print.component.html',
   styleUrl: './receipt-print.component.scss',
 })
 export class ReceiptPrintComponent{
-  @Input() data: Merchandise[] = [];
+  @Input() data: Order[] = [];
 
   today = new Date();
-  constructor(private printService: NgxPrintService) {
+  constructor(private printService: NgxPrintService, public userService: UserService, public groupService: GroupService) {
   }
 
   total() {
     return this.data.reduce((pre, cur, idx, arr) => {
-      return pre + cur.price;
+      return pre + cur.sellingPrice;
     }, 0)
   }
 

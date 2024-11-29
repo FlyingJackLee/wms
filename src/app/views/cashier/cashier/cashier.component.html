@@ -4,7 +4,8 @@
     <button (click)="sidenav.toggle()" mat-icon-button>
       <mat-icon>menu</mat-icon>
     </button>
-    <span>销售宝</span>
+    <a routerLink="/cashier/home">销售宝</a>
+    <button id="tour-button" (click)="clearTour()" mat-flat-button color="primary">开启新手导航</button>
     <button id="logout-button" (click)="logout()" mat-flat-button color="primary">退出登录</button>
   </mat-toolbar>
 
@@ -27,6 +28,16 @@
           <mat-icon matListItemIcon>monitoring</mat-icon>
           <div matListItemTitle>数据</div>
           <div matListItemLine>历史账单</div>
+        </mat-list-item>
+
+        <mat-list-item [routerLink]=" requestUsers == 0 ? '/cashier/center' : '/cashier/center/staff'">
+          @if(requestUsers == 0) {
+            <mat-icon matListItemIcon>badge</mat-icon>
+          } @else {
+            <mat-icon [matBadge]="requestUsers" matBadgeColor="primary" matTooltip="有新的加入申请" matListItemIcon>badge</mat-icon>
+          }
+          <div matListItemTitle>个人中心</div>
+          <div matListItemLine>设置</div>
         </mat-list-item>
       </mat-nav-list>
     </mat-drawer>

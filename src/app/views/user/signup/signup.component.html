@@ -6,71 +6,7 @@
   </div>
 
   <div class="form-container">
-    <h3>用户注册</h3>
-    <form [formGroup]="activateForm" (ngSubmit)="submit()">
-      @if(activateForm === usernameSignupForm){
-        <mat-form-field >
-          <mat-label>用户名</mat-label>
-          <input matInput formControlName="username">
-          @if (usernameSignupForm.controls.username.hasError("uniqueUsernameViolate") && (usernameSignupForm.touched || usernameSignupForm.dirty)) {
-            <mat-error>用户名已经存在</mat-error>
-          }
-          @else if ((usernameSignupForm.controls.username.hasError("required") ||  usernameSignupForm.controls.username.hasError("pattern")) && (usernameSignupForm.touched || usernameSignupForm.dirty)) {
-            <mat-error>5-15位小写字母数字组成</mat-error>
-          }
-        </mat-form-field>
-      } @else if (activateForm === emailSignupForm) {
-        <mat-form-field >
-          <mat-label>邮箱地址</mat-label>
-          <input matInput formControlName="email">
-          @if (emailSignupForm.controls.email.hasError("uniqueEmailViolate") && (emailSignupForm.touched || emailSignupForm.dirty)) {
-            <mat-error>邮箱地址已经存在</mat-error>
-          }
-          @else if ((emailSignupForm.controls.email.hasError("required") ||  emailSignupForm.controls.email.hasError("email")) && (usernameSignupForm.touched || usernameSignupForm.dirty)) {
-            <mat-error>邮箱地址不正确</mat-error>
-          }
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>邮箱验证码</mat-label>
-          <input matInput formControlName="code">
-          <button preventEnter [disabled]="emailSignupForm.controls.email.invalid || codeSendCount > 0 " mat-raised-button color="primary" matSuffix #codeBut (click)="sendCode()">
-            {{ codeSendCount == 0 ? "发送验证码" : codeSendCount }}
-          </button>
-          @if (emailSignupForm.controls.code.invalid && (emailSignupForm.touched || emailSignupForm.dirty) ) {
-            <mat-error>验证码不能为空</mat-error>
-          }
-        </mat-form-field>
-      }
-
-      <mat-form-field>
-        <mat-label>密码</mat-label>
-        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
-        <button preventEnter tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        @if (activateForm.controls['password'].invalid && (activateForm.touched || activateForm.dirty) ) {
-          <mat-error>8-16位非空字符</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>确认密码</mat-label>
-        <input matInput formControlName="confirmPassword" [errorStateMatcher]="passwordConfirmMatcher" [type]="hidePassword ? 'password' : 'text'">
-        <button preventEnter tabindex="-1" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
-          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        @if (activateForm.invalid && (activateForm.touched || activateForm.dirty) ) {
-          <mat-error>两次密码必须一致</mat-error>
-        }
-      </mat-form-field>
-
-      <span><button mat-raised-button id="submit-button" [disabled]="activateForm.invalid || !showSubmitButton" type="submit" color="primary">注册</button></span>
-    </form>
-    <mat-divider></mat-divider>
-    @if(!showSubmitButton) {
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-    }
-    <button mat-button color="primary" (click)="switchPrincipalField()">切换为{{ this.activateForm === this.usernameSignupForm ? "邮箱地址" : "用户名" }}注册</button>
+    <ng-container *ngComponentOutlet="components[currentIndex].component;inputs:components[currentIndex].inputs"></ng-container>
+    <button mat-button color="primary" (click)="switchPrincipalField()">切换为{{ currentIndex == 0 ? "邮箱" : "手机号" }}注册</button>
   </div>
 </div>

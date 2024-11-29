@@ -5,10 +5,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Category} from "../../../../models/category";
+import {Category} from "../../../../../models/category";
 import {finalize} from "rxjs";
-import {CategoryService} from "../../../../services/category.service";
-import {ToastService} from "../../../../services/toast.service";
+import {CategoryService} from "../../../../../services/category.service";
+import {ToastService} from "../../../../../services/toast.service";
 
 @Component({
   selector: 'app-dialog-add-model',

@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-form-field >
+  <mat-form-field>
     <mat-label>品牌</mat-label>
     <mat-select #brand (selectionChange)="selectBrand($event.value)">
       @for (category of brands | async;track category){
