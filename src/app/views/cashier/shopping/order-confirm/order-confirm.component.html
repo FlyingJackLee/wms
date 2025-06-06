@@ -11,12 +11,32 @@
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
+    <mat-form-field>
         <mat-label>销售备注:</mat-label>
         <textarea matInput type="text" formControlName="remark"></textarea>
     </mat-form-field>
+
     <button mat-raised-button color="primary" type="submit" [disabled]="!orderConfirmForm.valid || loading">提交</button>
 </form>
+
+<mat-slide-toggle class="extra" [(ngModel)]="detailRequired">是否录入国补信息？</mat-slide-toggle>
+@if (detailRequired) {
+<mat-form-field class="extra">
+    <mat-label>客户姓名</mat-label>
+    <input matInput [(ngModel)]="customerDetail.name">
+</mat-form-field>
+
+<mat-form-field class="extra">
+    <mat-label>客户手机号</mat-label>
+    <input matInput [(ngModel)]="customerDetail.phone">
+</mat-form-field>
+
+<mat-form-field class="extra">
+    <mat-label>客户地址</mat-label>
+    <textarea matInput [(ngModel)]="customerDetail.address"> </textarea>
+</mat-form-field>
+}
+
 <app-receipt #receipt></app-receipt>
 @if(loading){
   <mat-progress-bar mode="query"></mat-progress-bar>

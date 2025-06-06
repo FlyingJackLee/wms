@@ -3,6 +3,7 @@
   body { margin: 1.6cm; }
 }
 
+
 body {
   margin-top: 10mm;
   font-weight: 100;
@@ -33,10 +34,17 @@ body {
   font-size: 10pt;
   display: flex;
   line-height: 14pt;
+  flex-wrap: wrap; /* 允许换行 */
+  gap: 10px; /* 设置间距 */
 }
 
 .detail .item {
   margin-right: 20px;
+  flex: 1 1 45%; /* 每个元素占据约 45% 的宽度 */
+}
+
+.head {
+    font-weight: 500;
 }
 
 table,

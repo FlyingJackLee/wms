@@ -3,9 +3,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-}
 
-.order-confirm-form *{
   width: 70%;
   margin-top: 20px;
   margin-left: 30px;
@@ -33,4 +31,9 @@
 
 mat-progress-bar {
   margin-top: 1rem;
+}
+
+.extra {
+  margin-left: 30px;
+  margin-right: 30px;
 }

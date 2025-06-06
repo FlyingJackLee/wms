@@ -1,7 +1,7 @@
 import {DIALOG_DATA} from '@angular/cdk/dialog';
 import {CommonModule} from '@angular/common';
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -18,6 +18,8 @@ import {MatDialogRef} from "@angular/material/dialog";
 import {Order} from "../../../../models/order";
 import {NgxPrintModule} from "ngx-print";
 import {ReceiptPrintComponent} from "../../../components/receipt/receipt-print.component";
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { CustomerDetail } from 'src/app/models/customer';
 
 interface OrderConfirmForm {
   date: FormControl<Date>;
@@ -27,8 +29,8 @@ interface OrderConfirmForm {
 @Component({
   selector: 'app-order-confirm',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, NgxPrintModule,
-    MatInputModule, MatIconModule, MatDividerModule, MatButtonModule,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, NgxPrintModule,
+    MatInputModule, MatIconModule, MatDividerModule, MatButtonModule, MatSlideToggleModule,
     MatDatepickerModule, MatNativeDateModule, MatProgressSpinnerModule, MatProgressBarModule, ReceiptPrintComponent],
   providers:[
 
@@ -46,8 +48,15 @@ export class OrderConfirmComponent implements OnInit{
   orderConfirmForm:FormGroup<OrderConfirmForm> = this.formBuilder.nonNullable.group(
     {
       date: [this.today, Validators.required],
-      remark: ['']
+      remark: [''],
     });
+
+  detailRequired:boolean = false;
+  customerDetail: CustomerDetail = {
+    name: "",
+    phone: "",
+    address: ""
+  }
 
   constructor(@Inject(DIALOG_DATA) public data: { cart: Order[]},
               private dialogRef: MatDialogRef<OrderConfirmComponent>,
@@ -80,6 +89,10 @@ export class OrderConfirmComponent implements OnInit{
        }));
 
        this.receipt.data = orders;
+
+       if(this.detailRequired){
+          this.receipt.customerDetail = this.customerDetail;
+       }
 
        this.orderService.batchOrder(orders).pipe(
          finalize(() => this.loading = false)

@@ -68,7 +68,7 @@ export class ShoppingComponent implements AfterViewInit{
   orderConfirm() {
     const dialogRef = this.dialog.open<OrderConfirmComponent>(OrderConfirmComponent, {
       data: {cart: this.cart},
-      height: "500px",
+      height: "800px",
       width: "350px"
     }).afterClosed().subscribe(
       result => {
