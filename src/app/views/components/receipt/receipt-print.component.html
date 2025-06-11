@@ -28,7 +28,7 @@
         <td>序号</td>
         <td>品牌</td>
         <td>型号</td>
-        <td>串号</td>
+        <td>串号IMEI</td>
         <td>单价</td>
         <td>数量</td>
         <td>单位</td>
@@ -36,7 +36,7 @@
       </tr>
       @for (order of data; track order.id; let idx = $index){
         <tr>
-          <td style="min-width:40px"><span>{{ idx + 1 }}</span></td>
+          <td rowspan="2" style="min-width:40px"><span>{{ idx + 1 }}</span></td>
           <td><span>{{ models[idx] }}</span></td>
           <td><span>{{ order.merchandise.category.name }}</span></td>
           <td><span>{{ order.merchandise.imei }}</span></td>
@@ -44,6 +44,11 @@
           <td style="min-width:40px"><span>1</span></td>
           <td style="min-width:40px"><span>台</span></td>
           <td><span>{{ order.sellingPrice | number : '1.2-2' }}</span></td>
+        </tr>
+        <tr>
+          <td colspan="3" style="text-align:left;"><span style="font-weight: bold;">串号2:</span></td>
+          <td colspan="2" style="text-align:left;"><span style="font-weight: bold;">SN:</span></td>
+          <td colspan="2" style="text-align:left;"><span style="font-weight: bold;">>69码:</span></td>
         </tr>
       }
       <tr>
